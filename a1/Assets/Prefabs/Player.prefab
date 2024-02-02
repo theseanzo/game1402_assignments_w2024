@@ -380,9 +380,8 @@ GameObject:
   - component: {fileID: 2801973966204682747}
   - component: {fileID: 2761851901582909887}
   - component: {fileID: 2812444585908941313}
-  - component: {fileID: 2812444585908941322}
-  - component: {fileID: 2812444585908941324}
-  - component: {fileID: 4436783309385037059}
+  - component: {fileID: 1577428351}
+  - component: {fileID: 954552202}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -471,7 +470,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.13
   m_Center: {x: 0, y: 0.01, z: -0.04}
---- !u!114 &2812444585908941322
+--- !u!114 &1577428351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -480,19 +479,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2810725868317823087}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d731ce8ec7dea3e44978e52be0bf6e63, type: 3}
+  m_Script: {fileID: 11500000, guid: f28d3574f8d74274a46573beeb3127a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 15
-  walkSpeed: 1.5
-  runSpeed: 5
-  sprintSpeed: 7
-  rayCastHeightOffset: 0.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  jumpForce: 3
---- !u!114 &2812444585908941324
+  <Animator>k__BackingField: {fileID: 2761851901582909887}
+  Rb: {fileID: 0}
+  <WalkSpeed>k__BackingField: 1.5
+  <RunSpeed>k__BackingField: 4.5
+  <SprintSpeed>k__BackingField: 7.5
+--- !u!114 &954552202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -501,19 +496,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2810725868317823087}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ad6281905df624469fc89f9c02d0d63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4436783309385037059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2810725868317823087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a4e2972d4a364541b2ae9b8c830aff8, type: 3}
+  m_Script: {fileID: 11500000, guid: d569af74cd3b989458d7b26f90ed78d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2810827400353040229

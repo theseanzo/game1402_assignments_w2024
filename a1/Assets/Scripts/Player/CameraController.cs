@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
-        targetTransform = FindObjectOfType<PlayerController>().transform;
+        targetTransform = FindObjectOfType<PlayerControls>().transform;
         //camera = GetComponentInChildren<Camera>();
     }
     private void HandleAllCameraMovement()
