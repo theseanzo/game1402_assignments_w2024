@@ -11,7 +11,6 @@ public class StateMachine
     // Reference to State Objects.
     public PlayerIdleState _idleState;
     public PlayerMoveState _moveState;
-    public PlayerSprintState _sprintState;
     public PlayerJumpState _jumpState;
 
     // Notification event.
@@ -22,7 +21,6 @@ public class StateMachine
     {
         this._idleState = new PlayerIdleState(player);
         this._moveState = new PlayerMoveState(player);
-        this._sprintState =  new PlayerSprintState(player);
         this._jumpState =  new PlayerJumpState(player);
     }
 

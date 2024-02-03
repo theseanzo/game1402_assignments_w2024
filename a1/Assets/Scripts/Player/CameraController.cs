@@ -19,6 +19,10 @@ public class CameraController : MonoBehaviour
     float maxPivotAngle = 35;
     [SerializeField]
     Transform cameraPivot;
+    
+    [SerializeField]
+    [Range(0.1f, 1f)]
+    float _cameraXSensitivity = 0.3f;
 
 
     private float lookAngle = 0, pivotAngle = 0;
@@ -39,7 +43,7 @@ public class CameraController : MonoBehaviour
 
     public void RotateCamera(Vector2 movement)
     {
-        lookAngle = lookAngle + movement.x * cameraLookSpeed;
+        lookAngle = lookAngle + movement.x * cameraLookSpeed * _cameraXSensitivity;
         pivotAngle = pivotAngle - (movement.y * cameraPivotSpeed);
         pivotAngle = Mathf.Clamp(pivotAngle, minPivotAngle, maxPivotAngle);
         Vector3 rotation = Vector3.zero;

@@ -10,6 +10,7 @@ public class PlayerIdleState : IPlayerState
     readonly int BoredIdlehash = Animator.StringToHash("IdleBored");
 
     float _crossFadeDuration = 0.1f;
+    float _boredTimer = 15f;
 
     public PlayerIdleState(PlayerControls player)
     {
@@ -19,12 +20,8 @@ public class PlayerIdleState : IPlayerState
     public void EnterState()
     {
         Debug.Log("Entering Idle State");
+        _player.Animator.CrossFadeInFixedTime(LocomotionHash, _crossFadeDuration);
         _player.StartCoroutine(BoredAnim());
-    }
-
-    public void Update()
-    {
-        // 
     }
 
     public void ExitState()
@@ -33,10 +30,10 @@ public class PlayerIdleState : IPlayerState
     }
     IEnumerator BoredAnim()
     {
-        while (true)
+        while (_player.PlayerStateMachine.CurrentState == _player.PlayerStateMachine._idleState)
         {
-            _player.Animator.CrossFadeInFixedTime(BoredIdlehash, _crossFadeDuration);
-            yield return new WaitForSeconds(7f);
+            _player.Animator.CrossFade(BoredIdlehash, _crossFadeDuration);
+            yield return new WaitForSeconds(_boredTimer);
         }
     }
 }

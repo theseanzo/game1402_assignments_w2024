@@ -41271,11 +41271,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34d3f526198dae440bb2ce6005d86055, type: 3}
---- !u!54 &954552207 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 2866517542361545055, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
-  m_PrefabInstance: {fileID: 1577428347}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &954850674 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 38335279662569219, guid: 34d3f526198dae440bb2ce6005d86055, type: 3}
@@ -43894,6 +43889,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 38335279662569219, guid: 34d3f526198dae440bb2ce6005d86055, type: 3}
   m_PrefabInstance: {fileID: 597864441}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1021282224 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2503225422547207265, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+  m_PrefabInstance: {fileID: 1708017921}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1022429446 stripped
 Transform:
@@ -65648,9 +65648,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1577428351, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
-      propertyPath: Rb
+      propertyPath: RunSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1577428351, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
+      propertyPath: SprintSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1577428351, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
+      propertyPath: StrafeSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1577428351, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
+      propertyPath: CameraFocusPoint
       value: 
-      objectReference: {fileID: 954552207}
+      objectReference: {fileID: 1021282224}
     - target: {fileID: 2810725868317823087, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
       propertyPath: m_Name
       value: Player
@@ -65699,8 +65711,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 954552202, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
 --- !u!1001 &1577630505
 PrefabInstance:
@@ -70732,6 +70743,14 @@ PrefabInstance:
       propertyPath: targetTransform
       value: 
       objectReference: {fileID: 698361191}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: _cameraSensitivity
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: _cameraXSensitivity
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2503225422547207279, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
       propertyPath: m_Name
       value: '[CameraManager]'

@@ -2,21 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class PlayerControls : MonoBehaviour, PlayerInput.IPlayerMovementActions, PlayerInput.IPlayerActionsActions
+public class PlayerControls : MonoBehaviour
 {
-    StateMachine _playerStateMachine;
-
+    public StateMachine PlayerStateMachine;
+    #region MovementVariables
     [Header("Movement Variables")]
+    [SerializeField]
     public float WalkSpeed = 1.5f;
+    [SerializeField]
     public float RunSpeed = 4.5f;
+    [SerializeField]
     public float SprintSpeed = 7.5f;
+    [SerializeField]
+    public float StrafeSpeed = 3f;
 
-    public float CurrentSpeed { get; set; }
+    public Vector2 MovementVector = new Vector2();
 
-    public Vector2 InputVector { get; private set; }
-
+    public bool IsSprinting = false;
+    #endregion
+    #region Components
     [Header("Components")]
     [SerializeField]
     public Rigidbody Rb;
@@ -24,7 +29,9 @@ public class PlayerControls : MonoBehaviour, PlayerInput.IPlayerMovementActions,
     public Animator Animator { get; private set; }
     [SerializeField]
     public SphereCollider GroundDetectionColider;
-    private System.Numerics.Vector2 directionInputVector;
+
+    public Transform CameraFocusPoint;
+    #endregion
 
     void Awake()
     {
@@ -32,37 +39,38 @@ public class PlayerControls : MonoBehaviour, PlayerInput.IPlayerMovementActions,
         GroundDetectionColider = GetComponent<SphereCollider>();
         Animator = GetComponent<Animator>();
 
-        _playerStateMachine =  new StateMachine(this);
+        PlayerStateMachine =  new StateMachine(this);
+        CameraFocusPoint = Camera.main.transform;
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Start()
     {
-        _playerStateMachine.Init(_playerStateMachine._idleState);
+        PlayerStateMachine.Init(PlayerStateMachine._idleState);
     }
 
     void Update()
     {
-        _playerStateMachine.Update();
+        PlayerStateMachine.Update();
     }
 
-    public void OnMovement(InputAction.CallbackContext context)
+    public void HandleMovementInput(Vector2 movement)
     {
-        throw new NotImplementedException();
+        MovementVector = movement;
+
+        if (movement == Vector2.zero) { return; }
+        PlayerStateMachine.TransitionTo(PlayerStateMachine._moveState);
     }
 
-    public void OnCamera(InputAction.CallbackContext context)
+    public void HandleSprintInput(bool isSprinting)
     {
-        throw new NotImplementedException();
+        IsSprinting = isSprinting;
     }
 
-    public void OnSprint(InputAction.CallbackContext context)
+    public void HandleJump()
     {
-        throw new NotImplementedException();
-    }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (!context.performed) { return; }
-        _playerStateMachine.TransitionTo(_playerStateMachine._jumpState);
+        // 
     }
 }
