@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+    bool _isGrounded = false;
     public StateMachine PlayerStateMachine;
     #region MovementVariables
     [Header("Movement Variables")]
@@ -16,6 +17,8 @@ public class PlayerControls : MonoBehaviour
     public float SprintSpeed = 7.5f;
     [SerializeField]
     public float StrafeSpeed = 3f;
+    [SerializeField]
+    public float JumpForce = 9f;
 
     public Vector2 MovementVector = new Vector2();
 
@@ -71,6 +74,25 @@ public class PlayerControls : MonoBehaviour
 
     public void HandleJump()
     {
-        // 
+        if (_isGrounded)
+        {
+            PlayerStateMachine.TransitionTo(PlayerStateMachine._jumpState);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            _isGrounded =  true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Grounded"))
+        {
+            _isGrounded = false;
+        }
     }
 }

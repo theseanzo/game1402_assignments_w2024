@@ -4,25 +4,36 @@ using UnityEngine;
 
 public class PlayerJumpState : IPlayerState
 {
-    private PlayerControls player;
+    PlayerControls _player;
+
+    readonly int _jumpHash = Animator.StringToHash("Jumping");
+
+    float _crossFadeTime = 0.1f;
 
     public PlayerJumpState(PlayerControls player)
     {
-        this.player = player;
+        this._player = player;
     }
 
     public void EnterState()
     {
-        Debug.Log("Jumping so high");
+        _player.Animator.CrossFadeInFixedTime(_jumpHash, _crossFadeTime);
+        Jump();
     }
 
     public void Update()
     {
-        // 
     }
 
     public void ExitState()
     {
         Debug.Log("Leaving Jump State");
+    }
+
+    void Jump()
+    {
+        Vector3 jumpVelocity = _player.Rb.velocity;
+        jumpVelocity.y = _player.JumpForce;
+        _player.Rb.velocity = jumpVelocity;
     }
 }
