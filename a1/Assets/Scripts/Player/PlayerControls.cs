@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
-    bool _isGrounded = false;
+    public bool IsGrounded = false;
     public StateMachine PlayerStateMachine;
     #region MovementVariables
     [Header("Movement Variables")]
@@ -74,7 +74,7 @@ public class PlayerControls : MonoBehaviour
 
     public void HandleJump()
     {
-        if (_isGrounded)
+        if (IsGrounded)
         {
             PlayerStateMachine.TransitionTo(PlayerStateMachine._jumpState);
         }
@@ -84,15 +84,12 @@ public class PlayerControls : MonoBehaviour
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            _isGrounded =  true;
+            IsGrounded =  true;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Grounded"))
-        {
-            _isGrounded = false;
-        }
+        IsGrounded = false;
     }
 }
