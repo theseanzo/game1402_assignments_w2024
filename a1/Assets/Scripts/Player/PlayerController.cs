@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = true;
     bool isJumping;
     bool isSprinting;
+    bool isTargeting;
 
 
     float inAirTimer;
@@ -77,7 +78,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+        if(isTargeting)
+        {
+            animatorController.UpdateMovementValues(xMovement, movementAmount, isSprinting);
+        }
+        else
+        {
+            animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+        }
+
+        animatorController.HandleAirborneAnimations(rb.velocity);
+        
     }
     private void LateUpdate()
     {
@@ -135,16 +146,28 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
-        Vector3 targetDirection = Vector3.zero;
-        targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
-        targetDirection.Normalize();
-        targetDirection.y = 0;
-        if (targetDirection == Vector3.zero)
-            targetDirection = transform.forward;
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        transform.rotation = playerRotation;
+        if(isTargeting)
+        {
+            Vector3 targetDirection;
+            targetDirection = cameraObject.forward;
+            targetDirection.y = 0;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = playerRotation;
+        }  
+        else
+        {
+            Vector3 targetDirection;
+            targetDirection = cameraObject.forward * yMovement;
+            targetDirection = targetDirection + cameraObject.right * xMovement;
+            targetDirection.Normalize();
+            targetDirection.y = 0;
+            if (targetDirection == Vector3.zero)
+                targetDirection = transform.forward;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = playerRotation;
+        }
     }
 
     public void HandleMovementInput(Vector2 movement)
@@ -166,6 +189,11 @@ public class PlayerController : MonoBehaviour
         //{
         //    isSprinting = false;
         //}
+    }
+
+    public void HandleTargetInput(bool targeting)
+    {
+        isTargeting = targeting;
     }
     public void HandleJumpInput()
     {

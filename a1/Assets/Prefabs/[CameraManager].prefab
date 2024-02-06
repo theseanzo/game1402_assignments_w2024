@@ -168,3 +168,5 @@ MonoBehaviour:
   minPivotAngle: -35
   maxPivotAngle: 35
   cameraPivot: {fileID: 2503225421707951996}
+  cameraOffset: {x: 0, y: 0, z: -3}
+  cameraCollisionLerpSpeed: 0

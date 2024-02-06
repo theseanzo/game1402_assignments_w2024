@@ -20,12 +20,19 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Transform cameraPivot;
 
+    [SerializeField]
+    Vector3 cameraOffset;
+    Camera _camera;
+
+    [SerializeField]
+    float cameraCollisionLerpSpeed;
+
 
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
-        //camera = GetComponentInChildren<Camera>();
+        _camera = Camera.main;
     }
     private void HandleAllCameraMovement()
     {

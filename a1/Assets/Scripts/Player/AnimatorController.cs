@@ -15,24 +15,7 @@ public class AnimatorController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //this happens at approximately when the program loads
-        taunt = StartCoroutine(FallDown());
-        Invoke("StopFalling", 11f);
-    }
-
-    void StopFalling()
-    {
-        StopCoroutine(taunt);
-    }
-    IEnumerator FallDown()
-    {
         
-        for(int i = 0; i < 5; i++)
-        { 
-            animator.SetTrigger("FallDown");
-            yield return new WaitForSeconds(5f);
-        }
-
     }
 
     // Update is called once per frame
@@ -42,7 +25,7 @@ public class AnimatorController : MonoBehaviour
     }
     public void UpdateMovementValues(float xMovement, float yMovement, bool isSprinting = false)
     {
-        float snappedX = SnapValues(xMovement, 0.55f, 0.5f, 1.0f);
+        float snappedX = SnapValues(xMovement, 0.55f, 1.0f, 1.0f);
         float snappedY = SnapValues(yMovement, 0.55f, 0.5f, 1.0f);
         if (isSprinting)
         {
@@ -50,6 +33,25 @@ public class AnimatorController : MonoBehaviour
         }
         animator.SetFloat("XMovement", snappedX, .1f, Time.deltaTime);
         animator.SetFloat("YMovement", snappedY, .1f, Time.deltaTime);
+    }
+
+    public void HandleAirborneAnimations(Vector3 airVelocity)
+    {
+        if(airVelocity.y > 0.5f)
+        {
+            animator.SetBool("IsJumping", true);
+            animator.SetBool("IsFalling", false);
+        }
+        else if(airVelocity.y < -0.5f)
+        {
+            animator.SetBool("IsFalling", true);
+            animator.SetBool("IsJumping", false);
+        }
+        else
+        {
+            animator.SetBool("IsFalling", false);
+            animator.SetBool("IsJumping", false);
+        }
     }
 
     private float SnapValues(float value, float lowerBound, float lowValue, float highValue)
