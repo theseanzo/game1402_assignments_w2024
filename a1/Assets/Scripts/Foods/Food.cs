@@ -22,11 +22,6 @@ public class Food : MonoBehaviour
     Vector3 _foodPosition = new Vector3();
     Vector3 _hidePosition = new Vector3(0f, 1.5f, 0f);
 
-    Renderer _renderer;
-
-    Color _materialTarget = new Color(1f, 1f, 1f, 1f);
-    Color _transparentColor = new Color(0f, 0f, 0f, 0f);
-    Color _lerpColor;
 
     void Awake()
     {
@@ -34,7 +29,6 @@ public class Food : MonoBehaviour
         foodCollider.isTrigger = true;
         Value = GameConstants.BaseFoodValue;
         _foodPosition = transform.position;
-        _renderer = GetComponent<Renderer>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,7 +38,6 @@ public class Food : MonoBehaviour
             hit = true;
             GameManager.Instance.Score += Value; //recall that the value is set in each one of the food's children
             foodCollider.enabled =  false;
-            _renderer.material.SetColor("_Color", _transparentColor);
             transform.position = transform.position - _hidePosition;
             StartCoroutine(SmoothMove());
             StartCoroutine(Respawn());

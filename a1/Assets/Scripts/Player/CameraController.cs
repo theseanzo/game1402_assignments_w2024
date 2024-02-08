@@ -21,7 +21,8 @@ public class CameraController : MonoBehaviour
     Transform cameraPivot;
 
     Transform _cameraPosition;
-    Vector3 _playerPosition;
+    [SerializeField]
+    GameObject _playerObject;
     
 
     // Camera Variables I made.
@@ -31,7 +32,6 @@ public class CameraController : MonoBehaviour
 
     Vector3 _offset = new Vector3(0, 0, 2f);
     float _smoothingRate = 0.35f;
-    Collider _testCollider = null;
 
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
@@ -42,13 +42,15 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        _playerPosition = FindFirstObjectByType<PlayerControls>().transform.position;
+        if (_playerObject != null) { return; }
+        _playerObject = FindObjectOfType<PlayerControls>().gameObject;
+        Debug.Log($"{_playerObject.name} found!");
     }
 
     private void HandleAllCameraMovement()
     {
         FollowTarget();
-        HandleCameraLerp(_testCollider);
+        HandleCameraLerp();
     }
 
     private void FollowTarget()
@@ -72,13 +74,13 @@ public class CameraController : MonoBehaviour
         cameraPivot.localRotation = targetRotation;
     }
 
-    void HandleCameraLerp(Collider other)
+    void HandleCameraLerp()
     {
         RaycastHit hit;
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.225f, 0f));
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            if (hit.collider.name != other.GetComponent<PlayerControls>().name)
+            if (hit.collider != _playerObject)
             {
                 _cameraPosition.position = Vector3.Lerp(_cameraPosition.position, targetTransform.position, _smoothingRate * Time.deltaTime);
             }

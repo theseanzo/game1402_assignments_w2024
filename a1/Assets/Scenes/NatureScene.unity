@@ -43890,11 +43890,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 38335279662569219, guid: 34d3f526198dae440bb2ce6005d86055, type: 3}
   m_PrefabInstance: {fileID: 597864441}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1021282224 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2503225422547207265, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
-  m_PrefabInstance: {fileID: 1708017921}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1022429446 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9069115365609054727, guid: 60f79905accf3b24fa0114b941f1aac0, type: 3}
@@ -65666,7 +65661,19 @@ PrefabInstance:
     - target: {fileID: 1577428351, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
       propertyPath: CameraFocusPoint
       value: 
-      objectReference: {fileID: 1021282224}
+      objectReference: {fileID: 698361191}
+    - target: {fileID: 2801973966204682747, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
+      propertyPath: m_Radius
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2801973966204682747, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2801973966204682747, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
+      propertyPath: m_Center.z
+      value: 1.76998e-11
+      objectReference: {fileID: 0}
     - target: {fileID: 2810725868317823087, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
       propertyPath: m_Name
       value: Player
@@ -65674,6 +65681,10 @@ PrefabInstance:
     - target: {fileID: 2810725868317823087, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
       propertyPath: m_TagString
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2812444585908941313, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
+      propertyPath: m_Radius
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 2816973929645765867, guid: d9c5760e29be42140ae654d87ea602d1, type: 3}
       propertyPath: m_RootOrder
@@ -70749,6 +70760,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
       propertyPath: targetTransform
+      value: 
+      objectReference: {fileID: 698361191}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: _cameraFocusPoint
       value: 
       objectReference: {fileID: 698361191}
     - target: {fileID: 2503225422547207279, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
