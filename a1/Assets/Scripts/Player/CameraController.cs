@@ -19,22 +19,38 @@ public class CameraController : MonoBehaviour
     float maxPivotAngle = 35;
     [SerializeField]
     Transform cameraPivot;
+
+    Transform _cameraPosition;
+    Vector3 _playerPosition;
     
+
+    // Camera Variables I made.
     [SerializeField]
     [Range(0.1f, 1f)]
     float _cameraXSensitivity = 0.3f;
 
+    Vector3 _offset = new Vector3(0, 0, 2f);
+    float _smoothingRate = 0.35f;
+    Collider _testCollider = null;
 
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerControls>().transform;
-        //camera = GetComponentInChildren<Camera>();
+        _cameraPosition = GetComponentInChildren<Camera>().transform;
     }
+
+    void Start()
+    {
+        _playerPosition = FindFirstObjectByType<PlayerControls>().transform.position;
+    }
+
     private void HandleAllCameraMovement()
     {
         FollowTarget();
+        HandleCameraLerp(_testCollider);
     }
+
     private void FollowTarget()
     {
         Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, ref cameraFollowVelocity, cameraFollowSpeed);
@@ -55,6 +71,25 @@ public class CameraController : MonoBehaviour
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
     }
+
+    void HandleCameraLerp(Collider other)
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.225f, 0f));
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            if (hit.collider.name != other.GetComponent<PlayerControls>().name)
+            {
+                _cameraPosition.position = Vector3.Lerp(_cameraPosition.position, targetTransform.position, _smoothingRate * Time.deltaTime);
+            }
+            else
+            {
+                _cameraPosition.position = Vector3.Lerp(_cameraPosition.position, transform.position, _smoothingRate * Time.deltaTime);
+            }
+            Debug.Log(hit.collider.name);
+        }
+    }
+
     private void LateUpdate()
     {
         HandleAllCameraMovement();
