@@ -26,9 +26,20 @@
             ],
             "bindings": [
                 {
-                    "name": "WASD",
-                    "id": "ccf6e957-5a7c-43eb-b624-92ea602a6e10",
-                    "path": "2DVector(mode=2)",
+                    "name": "",
+                    "id": "2a3880f8-cbd7-4303-9451-8e34e0f3c329",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Movement",
+                    "id": "c9cf8ea0-5edf-4919-beb9-08d2b40a2f92",
+                    "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -38,7 +49,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "3c6d2a0b-30ad-4619-abe3-8137845c16c8",
+                    "id": "087151e0-eb85-45f6-9290-09fb1821be8e",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -49,7 +60,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "abb48ef0-92c3-4ebc-afe3-c98f9d7c330c",
+                    "id": "157ddbf8-c567-4242-9d92-8d31a7eeca4c",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -60,7 +71,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "db28848c-1c9c-41b4-b99c-2745cd543381",
+                    "id": "544f792b-8114-496f-b7e4-3e1ba33b352d",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -71,7 +82,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "d4d4785c-edc6-4b26-8944-330251eaf1a2",
+                    "id": "1a12328e-b63f-4897-bd1f-c2b4319aca6f",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -79,17 +90,6 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "2a3880f8-cbd7-4303-9451-8e34e0f3c329",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },

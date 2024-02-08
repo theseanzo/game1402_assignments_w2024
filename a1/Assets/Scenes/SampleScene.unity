@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 335983363}
   - component: {fileID: 335983362}
   - component: {fileID: 335983361}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolyShape (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1003,7 +1003,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-34600
+  m_Name: pb_Mesh41956
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1167,7 +1167,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-35460
+  m_Name: pb_Mesh41932
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1339,7 +1339,7 @@ GameObject:
   - component: {fileID: 965098762}
   - component: {fileID: 965098761}
   - component: {fileID: 965098760}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolyShape (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1906,7 +1906,7 @@ GameObject:
   - component: {fileID: 985223293}
   - component: {fileID: 985223292}
   - component: {fileID: 985223291}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolyShape (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2672,7 +2672,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-34114
+  m_Name: pb_Mesh42056
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2836,7 +2836,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-35264
+  m_Name: pb_Mesh42008
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3000,7 +3000,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-35084
+  m_Name: pb_Mesh42040
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3172,7 +3172,7 @@ GameObject:
   - component: {fileID: 1417465121}
   - component: {fileID: 1417465120}
   - component: {fileID: 1417465119}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolyShape (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3844,7 +3844,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-34910
+  m_Name: pb_Mesh42024
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4016,7 +4016,7 @@ GameObject:
   - component: {fileID: 1633561736}
   - component: {fileID: 1633561735}
   - component: {fileID: 1633561734}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolyShape (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4498,7 +4498,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-26096
+  m_Name: pb_Mesh41988
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4670,7 +4670,7 @@ GameObject:
   - component: {fileID: 1929615149}
   - component: {fileID: 1929615148}
   - component: {fileID: 1929615147}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolyShape (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5038,7 +5038,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-34454
+  m_Name: pb_Mesh41974
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5188,7 +5188,7 @@ Mesh:
   m_MeshUsageFlags: 0
   m_BakedConvexCollisionMesh: 
   m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
+  m_MeshMetrics[0]: 1.0000001
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
@@ -5210,7 +5210,7 @@ GameObject:
   - component: {fileID: 2115070606}
   - component: {fileID: 2115070605}
   - component: {fileID: 2115070604}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PolyShape (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5774,6 +5774,14 @@ PrefabInstance:
     - target: {fileID: 2503225422547207265, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: wallLayer.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2503225422547207279, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
       propertyPath: m_Name
