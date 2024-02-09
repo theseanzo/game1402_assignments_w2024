@@ -11,11 +11,13 @@ public class Food : MonoBehaviour
     {
         get; protected set;
     }
+
     void Awake()
     {
         Collider foodCollider = GetComponent<Collider>();
         foodCollider.isTrigger = true;
         Value = GameConstants.BaseFoodValue;
+        spawner = FindObjectOfType<Spawner>();
     }
 
     private void OnTriggerEnter(Collider other)

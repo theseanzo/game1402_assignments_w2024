@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1354686981642790143}
   m_Layer: 0
   m_Name: Cake
-  m_TagString: Untagged
+  m_TagString: Cake
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,3 +110,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51c58f087d291c40b64dccb38a6e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawner: {fileID: 0}
