@@ -7,7 +7,7 @@ public class Food : MonoBehaviour
     bool hit = false;
     bool grabbable;
 
-    float collectOffset = 1f;
+    float _collectOffset = 1f;
     public int Value
     {
         get; protected set;
@@ -41,17 +41,17 @@ public class Food : MonoBehaviour
             hit = true;
             grabbable = false;
             GameManager.Instance.Score += Value; //recall that the value is set in each one of the food's children
-            //Destroy(this.gameObject);
 
             //Making it so that upon colliding with the player, the food will fall beneath the floor, then slowly rising back up above the surface.
             
-            transform.position = new Vector3(transform.position.x, transform.position.y - collectOffset, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y - _collectOffset, transform.position.z);
             StartCoroutine(StartFoodSpawnerCountDown());
             StartCoroutine(SmoothlyUnhideCollectible());
         }
         
     }
 
+    //Starts the timer to handle interactiveness
     IEnumerator StartFoodSpawnerCountDown()
     {
         yield return new WaitForSeconds(5f);
@@ -59,6 +59,7 @@ public class Food : MonoBehaviour
         hit = false;
     }
 
+    //Slowly moves the position of the food back to it's original position;
     IEnumerator SmoothlyUnhideCollectible()
     {
         while (true)

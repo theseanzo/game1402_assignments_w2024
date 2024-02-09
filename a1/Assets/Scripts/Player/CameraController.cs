@@ -21,18 +21,19 @@ public class CameraController : MonoBehaviour
     Transform cameraPivot;
 
     [SerializeField]
-    Vector3 cameraOffset;
     Camera _camera;
 
     [SerializeField]
-    float cameraCollisionLerpSpeed;
+    float _cameraLerpSpeed;
 
+    Vector3 _cameraOriginalPosition;
 
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
         _camera = Camera.main;
+        _cameraOriginalPosition = _camera.transform.localPosition;
     }
     private void HandleAllCameraMovement()
     {
@@ -61,5 +62,27 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         HandleAllCameraMovement();
+    }
+
+    private void Update()
+    {
+        ObstacleOcclusion();
+    }
+
+    //Handles the object occlusion of the camera
+    private void ObstacleOcclusion()
+    {
+        LayerMask playerOcclusionMask = ~LayerMask.GetMask("Player");
+
+        RaycastHit hit;
+        
+        if (Physics.Raycast(targetTransform.position, _camera.transform.position - targetTransform.position, out hit, 5f, playerOcclusionMask))
+        {
+            Camera.main.transform.position = Vector3.Lerp(_camera.transform.position, hit.point, _cameraLerpSpeed * Time.deltaTime);
+        }
+        else
+        {
+            _camera.transform.localPosition = Vector3.Lerp(_camera.transform.localPosition, _cameraOriginalPosition, _cameraLerpSpeed * Time.deltaTime);
+        }
     }
 }
