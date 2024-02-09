@@ -38,8 +38,10 @@ public class PlayerController : MonoBehaviour
     private float cameraMovementY;
 
     bool isGrounded = true;
-    bool isJumping;
+    //bool isJumping;
     bool isSprinting;
+    bool isStrafingLeft;
+    bool isStrafingRight;
 
 
     float inAirTimer;
@@ -129,6 +131,7 @@ public class PlayerController : MonoBehaviour
                 moveDirection = moveDirection * walkSpeed;
             }
         }
+
         moveDirection.y = rb.velocity.y;
         rb.velocity = moveDirection;
     }
@@ -149,11 +152,16 @@ public class PlayerController : MonoBehaviour
 
     public void HandleMovementInput(Vector2 movement)
     {
+
         xMovement = movement.x;
         yMovement = movement.y;
         movementAmount = Mathf.Abs(xMovement) + Mathf.Abs(yMovement);
-        
-        
+
+        isStrafingLeft = xMovement < 0;
+        isStrafingLeft = yMovement > 0;
+
+        animatorController.SetIsStrafingRight(isStrafingRight);
+        animatorController.SetIsStrafingLeft(isStrafingLeft);
     }
     public void HandleSprintInput(bool sprint)
     {
@@ -167,16 +175,30 @@ public class PlayerController : MonoBehaviour
         //    isSprinting = false;
         //}
     }
-    public void HandleJumpInput()
+
+    private void OnCollisionEnter(Collision collision)
     {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            isGrounded = true;
+            animatorController.SetIsJumping(false);
+        }
+    }
+
+
+    public void HandleJumpInput(bool jump)
+    {
+        //isJumping = jump;
         if (isGrounded)
         {
+            animatorController.SetIsJumping(jump);
             Vector3 velocity = rb.velocity;
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
-            isGrounded = false; //inform that we are no longer on the ground
+            isGrounded = false; //inform that we are no longer on the groun
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))

@@ -24,6 +24,7 @@ public class AnimatorController : MonoBehaviour
     {
         StopCoroutine(taunt);
     }
+
     IEnumerator FallDown()
     {
         
@@ -40,7 +41,7 @@ public class AnimatorController : MonoBehaviour
     {
         
     }
-    public void UpdateMovementValues(float xMovement, float yMovement, bool isSprinting = false)
+    public void UpdateMovementValues(float xMovement, float yMovement, bool isSprinting = false, bool isJumping = false)
     {
         float snappedX = SnapValues(xMovement, 0.55f, 0.5f, 1.0f);
         float snappedY = SnapValues(yMovement, 0.55f, 0.5f, 1.0f);
@@ -48,8 +49,25 @@ public class AnimatorController : MonoBehaviour
         {
             snappedY = 2f;
         }
+
         animator.SetFloat("XMovement", snappedX, .1f, Time.deltaTime);
         animator.SetFloat("YMovement", snappedY, .1f, Time.deltaTime);
+    }
+
+    public void SetIsJumping(bool isJumping)
+    {
+        animator.SetBool("IsJumping", isJumping);
+    }
+
+    public void SetIsStrafingLeft(bool isStrafingLeft)
+    {
+        animator.SetBool("IsStrafingLeft", isStrafingLeft);
+    }
+
+    public void SetIsStrafingRight(bool isStrafingRight)
+    {
+        animator.SetBool("IsStrafingRight", isStrafingRight);
+        isStrafingRight = false;
     }
 
     private float SnapValues(float value, float lowerBound, float lowValue, float highValue)

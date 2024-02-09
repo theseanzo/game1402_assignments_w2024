@@ -110,3 +110,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d51c58f087d291c40b64dccb38a6e5a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  foodTimer: 5
+  material: {fileID: 2100000, guid: 2525a14eaa0a038488a4a4521d4b904b, type: 2}

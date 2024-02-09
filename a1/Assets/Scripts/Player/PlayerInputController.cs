@@ -19,7 +19,7 @@ public class PlayerInputController : MonoBehaviour
             playerInput.PlayerMovement.Camera.performed += i => cameraController.RotateCamera(i.ReadValue<Vector2>());
             playerInput.PlayerActions.Sprint.performed += i => playerController.HandleSprintInput(true);
             playerInput.PlayerActions.Sprint.canceled += i => playerController.HandleSprintInput(false);
-            playerInput.PlayerActions.Jump.started += i => playerController.HandleJumpInput();
+            playerInput.PlayerActions.Jump.started += i => playerController.HandleJumpInput(true);
             //a lambda function is of the type (parameters)=>one_line_function;
             //if multiple lines (parameters)=>{}
 
