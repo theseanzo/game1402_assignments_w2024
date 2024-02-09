@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,13 +27,12 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 1f)]
     float _cameraXSensitivity = 0.3f;
-    [SerializeField]
-    float _smoothingRate = 0.6f;
+
+    Vector3 _offset = new Vector3(0, 0, 2f);
+    float _smoothingRate = 0.35f;
     Transform _cameraPosition;
     [SerializeField]
-    Vector3 _cameraDistance;
-    [SerializeField]
-    float _maxDistance = 7.5f;
+    float _cameraDistance;
     #endregion
 
     private float lookAngle = 0, pivotAngle = 0;
@@ -48,7 +45,7 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        _cameraDistance = _cameraPosition.localPosition;
+        _cameraDistance = _cameraPosition.position.magnitude;
     }
 
     private void HandleAllCameraMovement()
@@ -77,19 +74,18 @@ public class CameraController : MonoBehaviour
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
     }
-    
+
     void HandleCameraLerp()
     {
+        Ray ray = new Ray(_cameraPosition.position, -_cameraPosition.forward);
         RaycastHit hit;
-        LayerMask layerMask = ~LayerMask.GetMask("Player");
-        Ray ray = new Ray(targetTransform.position, (_cameraPosition.position - targetTransform.position));
-        if (Physics.Raycast(ray, out hit, _maxDistance, layerMask))
+        if (Physics.SphereCast(ray, 0.25f, out hit, _cameraDistance))
         {
-            _cameraPosition.position = Vector3.Lerp(_cameraPosition.position, hit.point, _smoothingRate * Time.deltaTime);
+            _cameraPosition.localPosition = Vector3.back * hit.distance;
         }
         else
         {
-            _cameraPosition.localPosition = Vector3.Lerp(_cameraPosition.localPosition, _cameraDistance, _smoothingRate * Time.deltaTime);
+            _cameraPosition.localPosition = Vector3.back * _cameraDistance;
         }
     }
 
