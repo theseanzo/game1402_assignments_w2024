@@ -32,6 +32,14 @@ public class Spawner : MonoBehaviour
 
     IEnumerator FadeInObject()
     {
-        yield return null;
+        while (targetObject.GetComponent<Renderer>().material.color.a < 1) //run while material alpha is < 1
+        {
+            Color materialColor = targetObject.GetComponent<Renderer>().material.color;
+            float fadeAmount = materialColor.a + (fadeDelay * Time.deltaTime);
+
+            targetObject.GetComponent<Renderer>().material.color = new Color(materialColor.r, materialColor.g, materialColor.b, fadeAmount); //increase alpha based on fadeAmount
+
+            yield return null;
+        }
     }
 }
