@@ -6,4 +6,6 @@ public static class GameConstants
     public const int BurgerValue = 3;
     public const int CakeValue = 5;
     public const int FishValue = 3;
+
+    public const float BaseFoodRespawnTime = 5.0f;
 }
