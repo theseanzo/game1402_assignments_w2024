@@ -91674,6 +91674,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7933373323912123039, guid: a48f1874f2b2bfc4f893c6a472aa73e2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: df7fe48a4062d5448bff2a0f1470487e, type: 2}
     - target: {fileID: 8438054040456672074, guid: a48f1874f2b2bfc4f893c6a472aa73e2, type: 3}
       propertyPath: m_Name
       value: Steak (1)
@@ -94379,6 +94383,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7933373323912123039, guid: a48f1874f2b2bfc4f893c6a472aa73e2, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: df7fe48a4062d5448bff2a0f1470487e, type: 2}
     - target: {fileID: 8438054040456672074, guid: a48f1874f2b2bfc4f893c6a472aa73e2, type: 3}
       propertyPath: m_Name
       value: Steak

@@ -9,9 +9,12 @@ public class Food : MonoBehaviour
 
     void Awake()
     {
+        // Set the food value to the base food value
         Value = GameConstants.BaseFoodValue;
     }
 
+    //OnTriggerEnter is called when the Collider other enters the trigger.
+    //This function is called when the GameObject collides with another GameObject
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<PlayerController>() && !hit)
