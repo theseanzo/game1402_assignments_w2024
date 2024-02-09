@@ -31,6 +31,7 @@ public class GameManager : Singleton<GameManager>
     {
         GameTime = 0;
         foods = FindObjectsOfType<Food>();
+        UIManager.Instance.SetScore(0, 0, foods.Length);
     }
 
     // Update is called once per frame
