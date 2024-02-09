@@ -161,10 +161,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46407103712899b418426be99162ff68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTransform: {fileID: 0}
+  cameraPivot: {fileID: 2503225421707951996}
+  obsticalLayer:
+    serializedVersion: 2
+    m_Bits: 0
   cameraFollowSpeed: 0.2
   cameraLookSpeed: 2
   cameraPivotSpeed: 0.2
   minPivotAngle: -35
   maxPivotAngle: 35
-  cameraPivot: {fileID: 2503225421707951996}
+  maxZoomDIstance: 10
+  minZoomDistance: 2

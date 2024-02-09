@@ -28,9 +28,4 @@ public class PlayerInputController : MonoBehaviour
         playerInput.Enable();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -1,58 +1,79 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private Vector3 cameraFollowVelocity = Vector3.zero;
-    [SerializeField]
-    Transform targetTransform;
-    [SerializeField]
-    private float cameraFollowSpeed = .2f;
-    [SerializeField]
-    private float cameraLookSpeed = 2f;
-    [SerializeField]
-    private float cameraPivotSpeed = 2f;
-    [SerializeField]
-    float minPivotAngle = -35;
-    [SerializeField]
-    float maxPivotAngle = 35;
-    [SerializeField]
-    Transform cameraPivot;
+    private Transform targetTransform;
+    [SerializeField] private Transform cameraPivot;
 
+    [Header("Camera Settings")]
+    [SerializeField] private float cameraFollowSpeed = 5f;
+    [SerializeField] private float cameraLookSpeed = 2f;
+    [SerializeField] private float cameraPivotSpeed = 2f;
+    [SerializeField] private float minPivotAngle = -35f;
+    [SerializeField] private float maxPivotAngle = 35f;
+    [SerializeField] private float maxZoomDistance = 10f;
+    [SerializeField] private float minZoomDistance = 2f;
 
-    private float lookAngle = 0, pivotAngle = 0;
-    void Awake()
+    private float lookAngle = 0f;
+    private float pivotAngle = 0f;
+    private float currentZoomDistance = 5f;
+
+    private void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
-        //camera = GetComponentInChildren<Camera>();
     }
+
+    private void LateUpdate()
+    {
+        HandleAllCameraMovement();
+    }
+
     private void HandleAllCameraMovement()
     {
         FollowTarget();
+        ZoomCamera();
     }
+
     private void FollowTarget()
     {
-        Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, ref cameraFollowVelocity, cameraFollowSpeed);
+        Vector3 targetPosition = Vector3.Lerp(transform.position, targetTransform.position, Time.deltaTime * cameraFollowSpeed);
         transform.position = targetPosition;
     }
 
-    public void RotateCamera(Vector2 movement)
+    public void RotateCamera(Vector2 movememnt)
     {
-        lookAngle = lookAngle + movement.x * cameraLookSpeed;
-        pivotAngle = pivotAngle - (movement.y * cameraPivotSpeed);
+        lookAngle += movememnt.x * cameraLookSpeed;
+        pivotAngle -= movememnt.y * cameraPivotSpeed;
         pivotAngle = Mathf.Clamp(pivotAngle, minPivotAngle, maxPivotAngle);
+
         Vector3 rotation = Vector3.zero;
         rotation.y = lookAngle;
         Quaternion targetRotation = Quaternion.Euler(rotation);
         transform.rotation = targetRotation;
+
         rotation = Vector3.zero;
         rotation.x = pivotAngle;
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
     }
-    private void LateUpdate()
+
+    private void ZoomCamera()
     {
-        HandleAllCameraMovement();
+        RaycastHit hit;
+        Vector3 raycastOrigin = cameraPivot.position;
+        Vector3 raycastDirection = -cameraPivot.forward;
+
+        if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, maxZoomDistance))
+        {
+            currentZoomDistance = Mathf.Clamp(hit.distance - 0.5f, minZoomDistance, maxZoomDistance);
+        }
+        else
+        {
+            currentZoomDistance = maxZoomDistance;
+        }
+
+        Vector3 newPosition = cameraPivot.localPosition;
+        newPosition.z = -currentZoomDistance;
+        cameraPivot.localPosition = newPosition;
     }
 }
