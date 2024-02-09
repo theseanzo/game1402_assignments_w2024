@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class Food : MonoBehaviour
 {
+    bool hit = false;
     GameObject food;
     Vector3 prefabPosition;
-    bool hit = false;
+    public Spawner spawner;
+
     public int Value
     {
         get; protected set;
@@ -26,6 +28,8 @@ public class Food : MonoBehaviour
             prefabPosition = food.transform.position;
 
             Destroy(this.gameObject);
+
+            spawner.Spawn(food.tag, prefabPosition);
         }
     }
 }
