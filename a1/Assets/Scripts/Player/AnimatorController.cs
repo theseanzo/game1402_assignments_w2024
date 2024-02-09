@@ -20,15 +20,29 @@ public class AnimatorController : MonoBehaviour
         Invoke("StopFalling", 11f);
     }
 
+
+    public void SetIsJumping(bool isJumping)
+    {
+        animator.SetBool("IsJumping", isJumping);
+    }
+    public void SetIsStrafingLeft(bool isStrafingLeft)
+    {
+        animator.SetBool("IsStrafingLeft", isStrafingLeft);
+    }
+    public void SetIsStrafingRight(bool isStrafingRight)
+    {
+        animator.SetBool("IsStrafingRight", isStrafingRight);
+    }
+
     void StopFalling()
     {
         StopCoroutine(taunt);
     }
     IEnumerator FallDown()
     {
-        
-        for(int i = 0; i < 5; i++)
-        { 
+
+        for (int i = 0; i < 5; i++)
+        {
             animator.SetTrigger("FallDown");
             yield return new WaitForSeconds(5f);
         }
@@ -38,7 +52,7 @@ public class AnimatorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     public void UpdateMovementValues(float xMovement, float yMovement, bool isSprinting = false)
     {

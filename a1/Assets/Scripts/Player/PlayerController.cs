@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        
+
     }
     // Update is called once per frame
     void Update()
@@ -131,6 +131,8 @@ public class PlayerController : MonoBehaviour
         }
         moveDirection.y = rb.velocity.y;
         rb.velocity = moveDirection;
+
+        // HandleMovementInput(new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
     }
 
     private void HandleRotation()
@@ -152,8 +154,14 @@ public class PlayerController : MonoBehaviour
         xMovement = movement.x;
         yMovement = movement.y;
         movementAmount = Mathf.Abs(xMovement) + Mathf.Abs(yMovement);
-        
-        
+
+        bool isStrafingLeft = xMovement < 0;
+        bool isStrafingRight = xMovement > 0;
+
+        animatorController.SetIsStrafingLeft(isStrafingLeft);
+        animatorController.SetIsStrafingRight(isStrafingRight);
+
+
     }
     public void HandleSprintInput(bool sprint)
     {
@@ -167,25 +175,37 @@ public class PlayerController : MonoBehaviour
         //    isSprinting = false;
         //}
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            isGrounded = true;
+
+            animatorController.SetIsJumping(false);
+        }
+    }
     public void HandleJumpInput()
     {
         if (isGrounded)
         {
+            animatorController.SetIsJumping(true);
+
             Vector3 velocity = rb.velocity;
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
+
             isGrounded = false; //inform that we are no longer on the ground
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = false;
     }
 }

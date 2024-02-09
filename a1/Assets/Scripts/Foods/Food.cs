@@ -5,7 +5,11 @@ using UnityEngine;
 public class Food : MonoBehaviour
 {
     bool hit = false;
+    [SerializeField]
+    float spawnTimer = 5f;
+
     public int Value
+
     {
         get; protected set;
     }
@@ -18,22 +22,36 @@ public class Food : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
+
+
     private void OnTriggerEnter(Collider other)
     {
+        StartCoroutine(Respawn(spawnTimer));
         if (other.gameObject.GetComponent<PlayerController>() && !hit)
         {
             hit = true;
             GameManager.Instance.Score += Value; //recall that the value is set in each one of the food's children
-            Destroy(this.gameObject);
+
+            gameObject.SetActive(false);
+            //Destroy(this.gameObject);
+
+
+
         }
-        
+
+
+    }
+    IEnumerator Respawn(float spawnTimer)
+    {
+        yield return new WaitForSeconds(spawnTimer);
+        gameObject.SetActive(false);
+
     }
 }
