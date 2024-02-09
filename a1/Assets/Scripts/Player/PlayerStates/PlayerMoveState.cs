@@ -23,7 +23,6 @@ public class PlayerMoveState : IPlayerState
     public void EnterState()
     {
         _player.Animator.CrossFadeInFixedTime(_locomotionHash, _animatorDampTime);
-        Debug.Log("Now entering Move State vroom!");
     }
 
     public void Update()
@@ -38,7 +37,6 @@ public class PlayerMoveState : IPlayerState
 
     public void ExitState()
     {
-        Debug.Log("Exiting movement State");
     }
 
     Vector3 HandleMovement()

@@ -27,7 +27,6 @@ public class PlayerJumpState : IPlayerState
 
     public void ExitState()
     {
-        Debug.Log("Leaving Jump State");
     }
 
     void Jump()

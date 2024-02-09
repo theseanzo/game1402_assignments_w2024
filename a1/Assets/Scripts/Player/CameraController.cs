@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -20,20 +21,22 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Transform cameraPivot;
 
-    Transform _cameraPosition;
-    [SerializeField]
-    GameObject _playerObject;
     
 
-    // Camera Variables I made.
+    #region MyCam Vars
     [SerializeField]
     [Range(0.1f, 1f)]
     float _cameraXSensitivity = 0.3f;
 
     Vector3 _offset = new Vector3(0, 0, 2f);
     float _smoothingRate = 0.35f;
+    Transform _cameraPosition;
+    [SerializeField]
+    float _cameraDistance;
+    #endregion
 
     private float lookAngle = 0, pivotAngle = 0;
+
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerControls>().transform;
@@ -42,9 +45,7 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        if (_playerObject != null) { return; }
-        _playerObject = FindObjectOfType<PlayerControls>().gameObject;
-        Debug.Log($"{_playerObject.name} found!");
+        _cameraDistance = _cameraPosition.position.magnitude;
     }
 
     private void HandleAllCameraMovement()
@@ -76,19 +77,15 @@ public class CameraController : MonoBehaviour
 
     void HandleCameraLerp()
     {
+        Ray ray = new Ray(_cameraPosition.position, -_cameraPosition.forward);
         RaycastHit hit;
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.225f, 0f));
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.SphereCast(ray, 0.25f, out hit, _cameraDistance))
         {
-            if (hit.collider != _playerObject)
-            {
-                _cameraPosition.position = Vector3.Lerp(_cameraPosition.position, targetTransform.position, _smoothingRate * Time.deltaTime);
-            }
-            else
-            {
-                _cameraPosition.position = Vector3.Lerp(_cameraPosition.position, transform.position, _smoothingRate * Time.deltaTime);
-            }
-            Debug.Log(hit.collider.name);
+            _cameraPosition.localPosition = Vector3.back * hit.distance;
+        }
+        else
+        {
+            _cameraPosition.localPosition = Vector3.back * _cameraDistance;
         }
     }
 
