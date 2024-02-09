@@ -21,5 +21,17 @@ public class Spawner : MonoBehaviour
 
         targetObject = Instantiate(prefabGameObject, position, Quaternion.identity); //instantiate new prefab in the set position
         targetObject.GetComponent<BoxCollider>().enabled = false; //disable collider
+
+        Color materialColor = targetObject.GetComponent<Renderer>().material.color;
+        targetObject.GetComponent<Renderer>().material.color = new Color(materialColor.r, materialColor.g, materialColor.b, 0); //set alpha to zero
+
+        StartCoroutine(FadeInObject());
+
+        yield return null;
+    }
+
+    IEnumerator FadeInObject()
+    {
+        yield return null;
     }
 }
