@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 
 public class CameraController : MonoBehaviour
 {
-    private Vector3 cameraFollowVelocity = Vector3.zero;
+    
     [SerializeField]
     Transform targetTransform;
     [SerializeField]
@@ -19,18 +18,41 @@ public class CameraController : MonoBehaviour
     float maxPivotAngle = 35;
     [SerializeField]
     Transform cameraPivot;
+    [SerializeField]
+    float sphereRadius = 0.5f;
+
+    Camera camera;
+
+    private Vector3 cameraFollowVelocity = Vector3.zero;
+    private float lookAngle = 0;
+    private float pivotAngle = 0;
+    public float cameraDistance;
 
 
-    private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
-        //camera = GetComponentInChildren<Camera>();
+        camera = GetComponentInChildren<Camera>();
     }
+
     private void HandleAllCameraMovement()
     {
+        //Move Camera back until we get near a Physics Collider
+        Ray ray = new Ray(camera.transform.position, -camera.transform.forward);
+
+        RaycastHit hit;
+        if (Physics.SphereCast(ray, sphereRadius, out hit, cameraDistance))
+        {
+            camera.transform.localPosition = Vector3.back * hit.distance;
+        }
+        else
+        {
+            camera.transform.localPosition = Vector3.back * cameraDistance;
+        }
+
         FollowTarget();
     }
+
     private void FollowTarget()
     {
         Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, ref cameraFollowVelocity, cameraFollowSpeed);
@@ -51,8 +73,20 @@ public class CameraController : MonoBehaviour
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
     }
-    private void LateUpdate()
+
+    private void FixedUpdate()
     {
         HandleAllCameraMovement();
+    }
+
+    // Draw a Gizmo around where the camera has been projected to
+    void OnDrawGizmos()
+    {
+        if (Application.IsPlaying(this))
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(camera.transform.position, sphereRadius);
+
+        }
     }
 }
