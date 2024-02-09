@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine;
 using static Unity.VisualScripting.Member;
@@ -67,23 +69,22 @@ public class CameraController : MonoBehaviour
         CameraRaycast();
     }
 
-    private void CameraSmoothing(float alpha)
-    {
-        alpha = cameraSmoothSpeed;
-
-    }
-
     private void CameraRaycast()
     {
-        //RaycastHit hit;
+        Vector3 targetPosition;
+        RaycastHit hit;
         Vector3 cameraPos = GetComponentInChildren<Camera>().transform.position;
         Vector3 playerPos = targetTransform.position;
-        Vector3 direction = playerPos - cameraPos;
-        Debug.DrawRay(cameraPos, direction, Color.blue, 1.0f);
-        if (Physics.Raycast(cameraPos, direction, transform.forward.magnitude, wallLayer))
-        //if (Physics.SphereCast(cameraPos, 0.5f, direction, out hit, wallLayer))
+        Vector3 direction = cameraPos - playerPos;
+        float cameraDistance = Vector3.Distance(cameraPos, playerPos);
+        Ray cameraRay = new Ray(playerPos, direction);
+        Debug.DrawRay(playerPos, direction, Color.blue, 1.0f);
+        if (Physics.SphereCast(cameraRay, 0.05f, out hit, cameraDistance, wallLayer) || Physics.SphereCast(cameraRay, 0.25f, out hit, cameraDistance, groundLayer))
         {
-            Debug.Log("WE ARE IN THE BEAM");
+            Debug.Log("Camera is in wall at " + hit.point);
+            targetPosition = Vector3.SmoothDamp(transform.position, hit.point + (transform.forward * 4), ref cameraFollowVelocity, cameraFollowSpeed);
+            //targetPosition = Vector3.Lerp(transform.position, hit.point + (transform.forward *= 2), cameraSmoothSpeed);
+            transform.position = targetPosition;
         }
     }
 }
