@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Transform cameraPivot;
 
+
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
