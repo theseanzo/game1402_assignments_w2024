@@ -5,35 +5,51 @@ using UnityEngine;
 public class Food : MonoBehaviour
 {
     bool hit = false;
-    public int Value
-    {
-        get; protected set;
-    }
+    public int Value { get; protected set; }
+
     void Awake()
     {
-        Collider foodCollider = GetComponent<Collider>();
-        foodCollider.isTrigger = true;
         Value = GameConstants.BaseFoodValue;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<PlayerController>() && !hit)
         {
             hit = true;
-            GameManager.Instance.Score += Value; //recall that the value is set in each one of the food's children
-            Destroy(this.gameObject);
+            GameManager.Instance.Score += Value;
+            StartCoroutine(Respawn());
         }
-        
+    }
+
+    IEnumerator Respawn()
+    {
+        // Check if the food object is already inactive
+        if (!gameObject.activeSelf)
+        {
+            // Activate the food object
+            gameObject.SetActive(true);
+        }
+
+        // Reset the hit flag to allow the player to collect it again
+        hit = false;
+
+        // Get the renderer of the food object
+        Renderer renderer = GetComponent<Renderer>();
+
+        // Gradually increase the metallic value to fade in the food object
+        float metallic = 0f;
+        while (metallic < 1f)
+        {
+            metallic += Time.deltaTime; // Adjust the speed of the fade-in effect here
+            renderer.material.SetFloat("_Metallic", metallic);
+            yield return null;
+        }
+
+        // Deactivate the food object
+        gameObject.SetActive(false);
+
+        // Notify GameManager to respawn the food after a certain time
+        GameManager.Instance.RespawnFood(this);
     }
 }

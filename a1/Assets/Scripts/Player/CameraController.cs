@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float maxPivotAngle = 35f;
     [SerializeField] private float maxZoomDistance = 10f;
     [SerializeField] private float minZoomDistance = 2f;
+    [SerializeField] private LayerMask collisionLayers; // Layers to consider for collision detection
 
     private float lookAngle = 0f;
     private float pivotAngle = 0f;
@@ -40,10 +41,10 @@ public class CameraController : MonoBehaviour
         transform.position = targetPosition;
     }
 
-    public void RotateCamera(Vector2 movememnt)
+    public void RotateCamera(Vector2 movement)
     {
-        lookAngle += movememnt.x * cameraLookSpeed;
-        pivotAngle -= movememnt.y * cameraPivotSpeed;
+        lookAngle += movement.x * cameraLookSpeed;
+        pivotAngle -= movement.y * cameraPivotSpeed;
         pivotAngle = Mathf.Clamp(pivotAngle, minPivotAngle, maxPivotAngle);
 
         Vector3 rotation = Vector3.zero;
@@ -63,7 +64,7 @@ public class CameraController : MonoBehaviour
         Vector3 raycastOrigin = cameraPivot.position;
         Vector3 raycastDirection = -cameraPivot.forward;
 
-        if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, maxZoomDistance))
+        if (Physics.Raycast(raycastOrigin, raycastDirection, out hit, maxZoomDistance, collisionLayers))
         {
             currentZoomDistance = Mathf.Clamp(hit.distance - 0.5f, minZoomDistance, maxZoomDistance);
         }

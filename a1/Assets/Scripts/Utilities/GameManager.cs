@@ -1,45 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
     private int _score;
     private Food[] foods;
     private int numberCollected = 0;
+
     public int Score
     {
-        get
-        {
-            return _score;
-        }
+        get { return _score; }
         set
         {
             _score = value;
-            numberCollected += value >= 0 ? 1 : 0;
-
+            numberCollected++;
             UIManager.Instance.SetScore(_score, numberCollected, foods.Length);
         }
     }
-    public float GameTime
-    {
-        get; private set;
-    }
-    // Start is called before the first frame update
+
+    public float GameTime { get; private set; }
+
     void Start()
     {
         GameTime = 0;
         foods = FindObjectsOfType<Food>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        GameTime += Time.deltaTime;
+        if (IsGameRunning())
+            GameTime += Time.deltaTime;
     }
-    private void FixedUpdate()
+
+    void FixedUpdate()
     {
-        UIManager.Instance.SetTime(GameTime);
+        if (IsGameRunning())
+            UIManager.Instance.SetTime(GameTime);
+    }
+
+    bool IsGameRunning()
+    {
+        // Add conditions to check if the game is running or not
+        return true;
+    }
+
+    public void RespawnFood(Food food)
+    {
+        StartCoroutine(RespawnFoodCoroutine(food));
+    }
+
+    IEnumerator RespawnFoodCoroutine(Food food)
+    {
+        food.gameObject.SetActive(false);
+        yield return new WaitForSeconds(GameConstants.RespawnTime);
+        food.gameObject.SetActive(true);
     }
 }

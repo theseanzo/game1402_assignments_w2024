@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1943152917971758079}
   - component: {fileID: 3506019971267033379}
   - component: {fileID: -4352743692899714757}
+  - component: {fileID: -4628450074313314998}
   m_Layer: 0
   m_Name: Fish
   m_TagString: Untagged
@@ -93,7 +94,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 141734988828101162}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.44548523, y: 0.18781027, z: 0.078036}
@@ -108,5 +109,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29087ac766bb00645be037ab50922164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4628450074313314998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141734988828101162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ec1d7ebf09f6c949b86f7219ead063a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

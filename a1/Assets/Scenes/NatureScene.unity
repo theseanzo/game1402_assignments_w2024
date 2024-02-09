@@ -76117,6 +76117,10 @@ PrefabInstance:
       propertyPath: obsticalLayer.m_Bits
       value: 72
       objectReference: {fileID: 0}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: collisionLayers.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 2503225422547207279, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
       propertyPath: m_Name
       value: '[CameraManager]'
