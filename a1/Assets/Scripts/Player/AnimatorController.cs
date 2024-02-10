@@ -12,35 +12,8 @@ public class AnimatorController : MonoBehaviour
         animator = GetComponent<Animator>();
 
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        //this happens at approximately when the program loads
-        taunt = StartCoroutine(FallDown());
-        Invoke("StopFalling", 11f);
-    }
 
-    void StopFalling()
-    {
-        StopCoroutine(taunt);
-    }
-    IEnumerator FallDown()
-    {
-        
-        for(int i = 0; i < 5; i++)
-        { 
-            animator.SetTrigger("FallDown");
-            yield return new WaitForSeconds(5f);
-        }
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void UpdateMovementValues(float xMovement, float yMovement, bool isSprinting = false)
+    public void UpdateMovementValues(float xMovement, float yMovement, bool isStrafing = false, bool isSprinting = false)
     {
         float snappedX = SnapValues(xMovement, 0.55f, 0.5f, 1.0f);
         float snappedY = SnapValues(yMovement, 0.55f, 0.5f, 1.0f);
@@ -48,8 +21,13 @@ public class AnimatorController : MonoBehaviour
         {
             snappedY = 2f;
         }
-        animator.SetFloat("XMovement", snappedX, .1f, Time.deltaTime);
+
         animator.SetFloat("YMovement", snappedY, .1f, Time.deltaTime);
+
+        if (isStrafing)
+        {
+            animator.SetFloat("XMovement", snappedX, .1f, Time.deltaTime);
+        }
     }
 
     private float SnapValues(float value, float lowerBound, float lowValue, float highValue)
@@ -71,6 +49,5 @@ public class AnimatorController : MonoBehaviour
             return -highValue;
         }
         return 0f;
-
     }
 }

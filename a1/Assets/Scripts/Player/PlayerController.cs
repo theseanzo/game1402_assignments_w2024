@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     Transform cameraObject;
     Rigidbody rb;
 
+    #region SerializeField
     [Header("Movement")]
     [SerializeField]
     private float rotationSpeed = 15f;
@@ -29,22 +30,24 @@ public class PlayerController : MonoBehaviour
     [Header("Jump info")]
     [SerializeField]
     float jumpForce = 20f;
+    #endregion
 
+    #region private/default
     [Header("Input")]
     private float xMovement;
     private float yMovement;
     private float movementAmount;
-    private float cameraMovementX;
-    private float cameraMovementY;
 
     bool isGrounded = true;
     bool isJumping;
     bool isSprinting;
-
+    bool isStrafing;
 
     float inAirTimer;
+    #endregion
 
     SkinnedMeshRenderer meshRenderer;
+
     private void Awake()
     {
         animatorController = GetComponent<AnimatorController>(); //this grabs the AnimatorController
@@ -54,10 +57,12 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
+
     private void Start()
     {
         StartCoroutine(ChangePlayerColor());
     }
+
     IEnumerator ChangePlayerColor()
     {
         float alpha = 0.0f;
@@ -74,25 +79,18 @@ public class PlayerController : MonoBehaviour
 
         
     }
-    // Update is called once per frame
+
     void Update()
     {
-        animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+        animatorController.UpdateMovementValues(xMovement, yMovement, isStrafing, isSprinting);
     }
-    private void LateUpdate()
-    {
-        // GroundCheck();
-    }
+
     private void FixedUpdate()
     {
         HandleMovement();
         HandleRotation();
     }
-    private void HandleInput()
-    {
 
-
-    }
     private void GroundCheck() //this is where we figure out if we are on the ground or not
     {
         RaycastHit hit;
@@ -108,19 +106,21 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
     private void HandleMovement()
     {
-        Vector3 moveDirection = cameraObject.forward * yMovement;
+        moveDirection = cameraObject.forward * yMovement;
         moveDirection += cameraObject.right * xMovement;
         moveDirection.Normalize();
         moveDirection.y = 0;
+
         if (isSprinting)
         {
             moveDirection = moveDirection * sprintSpeed;
         }
         else
         {
-            if (movementAmount >= 0.5f)
+            if (movementAmount >= 0.5f && !isStrafing)
             {
                 moveDirection = moveDirection * runSpeed;
             }
@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviour
                 moveDirection = moveDirection * walkSpeed;
             }
         }
+        
         moveDirection.y = rb.velocity.y;
         rb.velocity = moveDirection;
     }
@@ -137,7 +138,16 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 targetDirection = Vector3.zero;
         targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
+
+        if (xMovement < 0) {
+            targetDirection = targetDirection + (cameraObject.forward * -1) * xMovement; //left strafe
+             
+        }
+        else if (xMovement > 0)
+        {
+            targetDirection = targetDirection + (cameraObject.forward) * xMovement; //right strafe
+        }
+
         targetDirection.Normalize();
         targetDirection.y = 0;
         if (targetDirection == Vector3.zero)
@@ -152,21 +162,15 @@ public class PlayerController : MonoBehaviour
         xMovement = movement.x;
         yMovement = movement.y;
         movementAmount = Mathf.Abs(xMovement) + Mathf.Abs(yMovement);
-        
-        
+
+        isStrafing = xMovement < 0 || xMovement > 0 ? true : false;
     }
+
     public void HandleSprintInput(bool sprint)
     {
         isSprinting = sprint;
-        //if (Input.GetButton("Sprint")) //Remember: GetKey, GetButton, etc. is for a button that's held down. GetKeyDown, GetButtonDown, etc. only trigger when the button is held down
-        //{
-        //    isSprinting = true;
-        //}
-        //else
-        //{
-        //    isSprinting = false;
-        //}
     }
+
     public void HandleJumpInput()
     {
         if (isGrounded)
@@ -177,6 +181,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = false; //inform that we are no longer on the ground
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
