@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bread : Food 
+public class Bread : Foodd 
 {
     // Start is called before the first frame update
     void Start()

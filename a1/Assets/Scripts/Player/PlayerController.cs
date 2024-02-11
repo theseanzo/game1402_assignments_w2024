@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     //This is a standard 3D player controller
     AnimatorController animatorController;
+
+    Animator playerAnimator;
     Vector3 moveDirection;
     Transform cameraObject;
     Rigidbody rb;
@@ -19,6 +22,8 @@ public class PlayerController : MonoBehaviour
     float runSpeed = 5f;
     [SerializeField]
     float sprintSpeed = 7f;
+
+    bool isTargeting;
 
     [Header("Falling")]
     [SerializeField]
@@ -37,9 +42,9 @@ public class PlayerController : MonoBehaviour
     private float cameraMovementX;
     private float cameraMovementY;
 
-    bool isGrounded = true;
-    bool isJumping;
+    public bool isGrounded = true;
     bool isSprinting;
+    private Animator animator;
 
 
     float inAirTimer;
@@ -53,10 +58,12 @@ public class PlayerController : MonoBehaviour
         cameraObject = Camera.main.transform;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        
     }
     private void Start()
     {
         StartCoroutine(ChangePlayerColor());
+       animator = GetComponent<Animator>();
     }
     IEnumerator ChangePlayerColor()
     {
@@ -77,7 +84,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+
+        if(isTargeting)
+        {
+           animatorController.UpdateMovementValues(xMovement, movementAmount, isSprinting);
+        } 
+        
+        else
+        {
+            animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+        }
+
     }
     private void LateUpdate()
     {
@@ -133,8 +150,27 @@ public class PlayerController : MonoBehaviour
         rb.velocity = moveDirection;
     }
 
+    public void HandleTargetInput(bool targeting)
+    {
+        isTargeting = targeting;
+    }
+
     private void HandleRotation()
     {
+
+        if(isTargeting)
+        {
+            Vector3 targetDirection;
+            targetDirection = cameraObject.forward;
+            targetDirection.y =0;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = playerRotation;
+
+
+        }
+        else
+        {
         Vector3 targetDirection = Vector3.zero;
         targetDirection = cameraObject.forward * yMovement;
         targetDirection = targetDirection + cameraObject.right * xMovement;
@@ -145,6 +181,7 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         transform.rotation = playerRotation;
+        }
     }
 
     public void HandleMovementInput(Vector2 movement)
@@ -152,8 +189,6 @@ public class PlayerController : MonoBehaviour
         xMovement = movement.x;
         yMovement = movement.y;
         movementAmount = Mathf.Abs(xMovement) + Mathf.Abs(yMovement);
-        
-        
     }
     public void HandleSprintInput(bool sprint)
     {
@@ -169,12 +204,17 @@ public class PlayerController : MonoBehaviour
     }
     public void HandleJumpInput()
     {
+
+        
         if (isGrounded)
         {
             Vector3 velocity = rb.velocity;
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
             isGrounded = false; //inform that we are no longer on the ground
+            animator.SetTrigger("Jump");
+            
+            
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -187,5 +227,9 @@ public class PlayerController : MonoBehaviour
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = false;
+            
+            
+            
+            
     }
 }

@@ -19,12 +19,28 @@ public class CameraController : MonoBehaviour
     float maxPivotAngle = 35;
     [SerializeField]
     Transform cameraPivot;
+    [SerializeField]
+    float cameraDistance;
+    [SerializeField]
+    public Transform player;
+
+    [SerializeField]
+    float annoying;
+
+    Vector3 Startingposition;
+
+
 
 
     private float lookAngle = 0, pivotAngle = 0;
+
+        // Event callback example: Debug-draw all contact points and normals for 2 seconds.
+
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
+        Startingposition = Camera.main.transform.localPosition;
+        
         //camera = GetComponentInChildren<Camera>();
     }
     private void HandleAllCameraMovement()
@@ -51,8 +67,31 @@ public class CameraController : MonoBehaviour
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
     }
+
+    private void Oculude()
+    {
+        Ray ray = new Ray(transform.position, Camera.main.transform.position - targetTransform.position);
+        RaycastHit hit;
+        
+        LayerMask mask = LayerMask.GetMask("player");
+        if(Physics.Raycast(ray, out hit, cameraDistance, ~mask))
+        {
+            //Vector3 targetPosition = Vector3.SmoothDamp(Camera.main.transform.position, hit.point, ref cameraFollowVelocity, cameraFollowSpeed);
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, hit.point, 10f * Time.deltaTime);
+        }
+        else
+        {
+            Camera.main.transform.localPosition = Vector3.Lerp(Camera.main.transform.localPosition, Startingposition, 10f * Time.deltaTime);
+        }
+    }
     private void LateUpdate()
     {
         HandleAllCameraMovement();
+    }  
+
+    void Update()
+    {
+        Oculude();
     }
+    
 }
