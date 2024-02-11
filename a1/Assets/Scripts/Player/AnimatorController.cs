@@ -10,14 +10,14 @@ public class AnimatorController : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-
     }
+    
     // Start is called before the first frame update
     void Start()
     {
         //this happens at approximately when the program loads
-        taunt = StartCoroutine(FallDown());
-        Invoke("StopFalling", 11f);
+        //taunt = StartCoroutine(FallDown());
+        //Invoke("StopFalling", 11f);
     }
 
     void StopFalling()
@@ -72,5 +72,15 @@ public class AnimatorController : MonoBehaviour
         }
         return 0f;
 
+    }
+
+    public void SetAnimationState(string name, bool value)
+    {
+        animator.SetBool(name, value);
+    }
+
+    public void SetTrigger(string name)
+    {
+        animator.SetTrigger(name);
     }
 }

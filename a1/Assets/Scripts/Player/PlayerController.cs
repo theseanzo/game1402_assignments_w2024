@@ -87,6 +87,11 @@ public class PlayerController : MonoBehaviour
     {
         HandleMovement();
         HandleRotation();
+
+        if(isJumping && rb.velocity.y < 0)
+        {
+            animatorController.SetAnimationState("IsFalling", true);
+        }
     }
     private void HandleInput()
     {
@@ -158,19 +163,13 @@ public class PlayerController : MonoBehaviour
     public void HandleSprintInput(bool sprint)
     {
         isSprinting = sprint;
-        //if (Input.GetButton("Sprint")) //Remember: GetKey, GetButton, etc. is for a button that's held down. GetKeyDown, GetButtonDown, etc. only trigger when the button is held down
-        //{
-        //    isSprinting = true;
-        //}
-        //else
-        //{
-        //    isSprinting = false;
-        //}
     }
     public void HandleJumpInput()
     {
         if (isGrounded)
         {
+            isJumping = true;
+            animatorController.SetAnimationState("IsJumping", isJumping);
             Vector3 velocity = rb.velocity;
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
@@ -180,12 +179,21 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
             isGrounded = true;
+            isJumping = false;
+            animatorController.SetAnimationState("IsFalling", false);
+            animatorController.SetAnimationState("IsJumping", false);
+            animatorController.SetAnimationState("IsGrounded", isGrounded);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
             isGrounded = false;
+            animatorController.SetAnimationState("IsGrounded", isGrounded);
+        }
     }
 }
