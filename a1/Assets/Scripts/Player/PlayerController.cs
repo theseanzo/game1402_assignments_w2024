@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -29,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump info")]
     [SerializeField]
-    float jumpForce = 20f;
+    float jumpForce = 5f;
     #endregion
 
     #region private/default
@@ -82,7 +81,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        animatorController.UpdateMovementValues(xMovement, yMovement, isStrafing, isSprinting);
+        animatorController.UpdateMovementValues(xMovement, yMovement, isJumping, isSprinting);
     }
 
     private void FixedUpdate()
@@ -171,8 +170,20 @@ public class PlayerController : MonoBehaviour
         isSprinting = sprint;
     }
 
-    public void HandleJumpInput()
+    public void HandleJumpInput(bool jump)
     {
+        // For some reason there is an issue related to SphereCollider. 
+        // In some cases even when the player is on the ground, 
+        // the jump is not performed because isGrounded is False.
+        // Increasing/decreasing the radius of the Sphere on Unity UI forces it to True while Playing.
+        // However, even radius 5, some moments walking through the terrain,
+        // it eventually goes to False for some mysterious reason.
+        // Perhaps the problem is related to the encounter between two terrains or more,
+        // when entering in a new one (isGrounded is true) and leaving other (isGrounded goes to false).
+        // I have tested it in only one terrain and this problem does not happen.
+        isJumping = jump && isGrounded;
+        Debug.Log("HandleJumpInput isJumping " + isJumping);
+        Debug.Log("HandleJumpInput isGrounded " + isGrounded);
         if (isGrounded)
         {
             Vector3 velocity = rb.velocity;
@@ -184,13 +195,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = true;
+        Debug.Log("OnTriggerEnter IsGrounded: " + isGrounded);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = false;
+        Debug.Log("OnTriggerExit IsGrounded: " + isGrounded);
     }
 }
