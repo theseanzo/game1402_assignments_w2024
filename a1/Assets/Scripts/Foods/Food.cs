@@ -7,6 +7,7 @@ public class Food : MonoBehaviour
     [SerializeField]
     private float respawnTimerDefault = 1f;
     MeshRenderer meshRenderer;
+    Coroutine respawn;
     bool hit = false;
     public int Value
     {
@@ -36,7 +37,7 @@ public class Food : MonoBehaviour
         {
             hit = true;
             GameManager.Instance.Score += Value; //recall that the value is set in each one of the food's children
-            StartCoroutine(RespawnFood());
+            respawn = StartCoroutine(RespawnFood());
         }
         
     }
@@ -50,18 +51,19 @@ public class Food : MonoBehaviour
         color.a = 0.0f;
         while (respawnTimer > 0)
             {
-            color.a = color.a + 0.001f;
+            color.a = color.a + (2.0f / (respawnTimerDefault * 100f));
             meshRenderer.material.color = color;
-            respawnTimer = respawnTimer - 0.001f;
+            respawnTimer = respawnTimer - Time.deltaTime;
             Debug.Log(respawnTimer);
+            Debug.Log("ALPHA IS " + color.a);
             yield return new WaitForFixedUpdate();
             if(respawnTimer <= 0.01f)
             {
+                Debug.Log("Respawn Timer Finished");
                 respawnTimer = respawnTimerDefault;
                 color.a = 1.0f;
-                Debug.Log("Respawn Timer Finished");
                 GetComponent<BoxCollider>().enabled = true;
-                StopCoroutine(RespawnFood());
+                StopCoroutine(respawn);
             }
         }
     }

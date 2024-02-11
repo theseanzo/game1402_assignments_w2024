@@ -74,7 +74,7 @@ public class CameraController : MonoBehaviour
         Vector3 targetPosition;
         RaycastHit hit;
         Vector3 cameraPos = GetComponentInChildren<Camera>().transform.position;
-        Vector3 playerPos = targetTransform.position;
+        Vector3 playerPos = targetTransform.localPosition;
         Vector3 direction = cameraPos - playerPos;
         float cameraDistance = Vector3.Distance(cameraPos, playerPos);
         Ray cameraRay = new Ray(playerPos, direction);
