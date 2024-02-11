@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     private float cameraMovementY;
 
     bool isGrounded = true;
-    bool isJumping;
+    public bool IsJumping;
     bool isSprinting;
 
 
@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+        animatorController.UpdateMovementValues(xMovement, movementAmount, isSprinting);
     }
     private void LateUpdate()
     {
@@ -104,6 +104,7 @@ public class PlayerController : MonoBehaviour
             if (Physics.SphereCast(rayCastOrigin, 0.5f, -Vector3.up, out hit, 0.5f, groundLayer))
             {
                 isGrounded = true;
+                animatorController.Jump(false);
             }
         }
 
@@ -137,7 +138,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 targetDirection = Vector3.zero;
         targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
+        // targetDirection = targetDirection + cameraObject.right * xMovement;
         targetDirection.Normalize();
         targetDirection.y = 0;
         if (targetDirection == Vector3.zero)
@@ -171,11 +172,14 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
+            animatorController.Jump(true);
             Vector3 velocity = rb.velocity;
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
             isGrounded = false; //inform that we are no longer on the ground
+            
         }
+        
     }
     private void OnTriggerEnter(Collider other)
     {

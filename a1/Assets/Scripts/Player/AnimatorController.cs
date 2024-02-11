@@ -34,6 +34,22 @@ public class AnimatorController : MonoBehaviour
         }
 
     }
+    public void Jump(bool isJumping)
+    {
+        if(isJumping)
+        {
+            StartCoroutine(Jumping(true));
+        }
+        else
+            StopCoroutine(taunt);
+
+    }
+    IEnumerator Jumping(bool jumpState)
+    {
+        
+        animator.SetTrigger("IsJumping");
+        yield return new WaitForSeconds(1f);
+    }
 
     // Update is called once per frame
     void Update()

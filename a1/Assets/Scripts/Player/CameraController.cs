@@ -20,16 +20,28 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Transform cameraPivot;
 
+    //variables for sphere cast
+    [SerializeField]
+    Vector3 cameraDistance;
+    Transform cameraTransform;
+    [SerializeField]
+    float cameraSmooth;
+
 
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
-        //camera = GetComponentInChildren<Camera>();
+        cameraTransform = GetComponentInChildren<Camera>().transform;
+    }
+    void Start()
+    {
+        cameraDistance = cameraTransform.localPosition;
     }
     private void HandleAllCameraMovement()
     {
         FollowTarget();
+        CameraCast();
     }
     private void FollowTarget()
     {
@@ -54,5 +66,20 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         HandleAllCameraMovement();
+    }
+    void CameraCast()
+    {
+        RaycastHit hit;
+        LayerMask playerMask = ~LayerMask.GetMask("Player");
+        Ray ray = new Ray(targetTransform.position, (cameraTransform.position - targetTransform.position));
+        if(Physics.Raycast(ray.origin, ray.direction, out hit, 10f, playerMask))
+        {
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, hit.point, cameraSmooth * Time.deltaTime);
+            Debug.Log("Hit");
+        }
+        else
+        {
+            cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, cameraDistance, cameraSmooth * Time.deltaTime);
+        }
     }
 }
