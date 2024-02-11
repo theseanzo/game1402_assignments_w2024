@@ -181,6 +181,7 @@ public class PlayerController : MonoBehaviour
         // Perhaps the problem is related to the encounter between two terrains or more,
         // when entering in a new one (isGrounded is true) and leaving other (isGrounded goes to false).
         // I have tested it in only one terrain and this problem does not happen.
+        // It seems that replacing OnTriggerEnter with OnCollisionEnter makes the issues happen less often.
         isJumping = jump && isGrounded;
         Debug.Log("HandleJumpInput isJumping " + isJumping);
         Debug.Log("HandleJumpInput isGrounded " + isGrounded);
@@ -193,14 +194,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = true;
         Debug.Log("OnTriggerEnter IsGrounded: " + isGrounded);
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             isGrounded = false;
