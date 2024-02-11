@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
+using UnityEngine.UI;
 
 
 public class CameraController : MonoBehaviour
 {
-    
+    #region SerializeField
     [SerializeField]
     Transform targetTransform;
     [SerializeField]
@@ -19,35 +21,43 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Transform cameraPivot;
     [SerializeField]
-    float sphereRadius = 0.5f;
+    float sphereRadius = 0.4f;
+    [SerializeField]
+    float cameraSmoothness = 10f;
+    [SerializeField]
+    float characterDistance = 3;
+    #endregion
 
-    Camera camera;
+    Camera mainCamera;
 
     private Vector3 cameraFollowVelocity = Vector3.zero;
     private float lookAngle = 0;
     private float pivotAngle = 0;
-    public float cameraDistance;
 
+    Vector3 initialCameraPosition;
 
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
-        camera = GetComponentInChildren<Camera>();
+        mainCamera = Camera.main;
+        initialCameraPosition = mainCamera.transform.localPosition;
     }
 
     private void HandleAllCameraMovement()
     {
-        //Move Camera back until we get near a Physics Collider
-        Ray ray = new Ray(camera.transform.position, -camera.transform.forward);
+        LayerMask LayerMask = LayerMask.GetMask("Player", "Ground", "Foliage");
 
+        Ray ray = new(targetTransform.position, mainCamera.transform.position - targetTransform.position);
+        Debug.DrawRay(targetTransform.position, mainCamera.transform.position - targetTransform.position, Color.red);
+        
         RaycastHit hit;
-        if (Physics.SphereCast(ray, sphereRadius, out hit, cameraDistance))
+        if (Physics.SphereCast(ray, sphereRadius, out hit, characterDistance, ~LayerMask))
         {
-            camera.transform.localPosition = Vector3.back * hit.distance;
+            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, hit.point, cameraSmoothness * Time.deltaTime); //perform camera zoom when blocked from view
         }
         else
         {
-            camera.transform.localPosition = Vector3.back * cameraDistance;
+            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, initialCameraPosition, cameraSmoothness * Time.deltaTime); //normalize camera zoom
         }
 
         FollowTarget();
@@ -79,14 +89,13 @@ public class CameraController : MonoBehaviour
         HandleAllCameraMovement();
     }
 
-    // Draw a Gizmo around where the camera has been projected to
+    // Draw a Sphere Gizmo around the camera based on sphereRadius
     void OnDrawGizmos()
     {
         if (Application.IsPlaying(this))
         {
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(camera.transform.position, sphereRadius);
-
+            Gizmos.DrawWireSphere(mainCamera.transform.position, sphereRadius);
         }
     }
 }
