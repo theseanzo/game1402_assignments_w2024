@@ -4,7 +4,7 @@ using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Foodd : PoolObject
+public class Foodd : MonoBehaviour
 {
 
     public static Foodd instance;
@@ -47,7 +47,7 @@ public class Foodd : PoolObject
          {
             GameManager.Instance.Score += Value; //recall that the value is set in each one of the food's children
             hit = true;
-            grabable = false;
+            grabable = false;//make food not grabbable with a bool statment during the duration of the coroutine 
             transform.position = new UnityEngine.Vector3(transform.position.x, transform.position.y - 2, transform.position.z);
             StartCoroutine(CountDown());
             StartCoroutine(Respawn());
@@ -65,7 +65,7 @@ public class Foodd : PoolObject
         while (true)
         {
         transform.position = UnityEngine.Vector3.Lerp(transform.position, startPosition, 1.0f * Time.fixedDeltaTime);
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();// move food above and bellow the map using a coroutine and some linerar interpolation logic (thanks owen)
         }
         
 

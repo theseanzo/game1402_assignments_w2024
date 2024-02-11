@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     public bool isGrounded = true;
     bool isSprinting;
-    private Animator animator;
+    private Animator animator;// add internal animator class for ease of acesses 
 
 
     float inAirTimer;
@@ -165,7 +165,7 @@ public class PlayerController : MonoBehaviour
             targetDirection.y =0;
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
             Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            transform.rotation = playerRotation;
+            transform.rotation = playerRotation;// spherical linear interpolation for the strafe mechanic locking rotation using a bool triggered by keypress 
 
 
         }
@@ -212,7 +212,7 @@ public class PlayerController : MonoBehaviour
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
             isGrounded = false; //inform that we are no longer on the ground
-            animator.SetTrigger("Jump");
+            animator.SetTrigger("Jump");// jump trigger for animator 
             
             
         }
