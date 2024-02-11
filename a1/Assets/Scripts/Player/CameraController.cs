@@ -15,7 +15,7 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private float cameraPivotSpeed = 2f;
     [SerializeField]
-    private float cameraZoomSpeed = 0.2f;
+    private float _cameraZoomSpeed = 0.2f;
     [SerializeField]
     float minPivotAngle = -35;
     [SerializeField]
@@ -24,9 +24,10 @@ public class CameraController : MonoBehaviour
     Transform cameraPivot;
     [SerializeField]
     private bool _showDebugRays = true;
+    [SerializeField]
+    private float _cameraMaxDistance = 3.5f;
     private float lookAngle = 0, pivotAngle = 0;
-    private Vector3 targetPositionOffset;
-    private float cameraMaxDistance;
+    private Vector3 _targetPositionOffset;
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
@@ -37,8 +38,8 @@ public class CameraController : MonoBehaviour
         GameObject player = FindObjectOfType<PlayerController>().gameObject;
         CapsuleCollider collider = player.GetComponent<CapsuleCollider>();
 
-        //Use offset to target player midsection instead of feet
-        targetPositionOffset = new Vector3(0, collider.height * 0.5f, 0);
+        // Use offset to target player midsection instead of feet
+        _targetPositionOffset = new Vector3(0, collider.height * 0.5f, 0);
     }
     private void HandleAllCameraMovement()
     {
@@ -46,23 +47,21 @@ public class CameraController : MonoBehaviour
     }
     private void FollowTarget()
     {
-        Vector3 adjustTargetPosition = targetTransform.position + targetPositionOffset;
-        
-        //float distance = Vector3.Distance(adjustTargetPosition, Camera.main.transform.position);
+        bool onHit = false;
+        // Default values when view is not blocked
+        float cameraMoveSpeed = cameraFollowSpeed;
+        Vector3 targetPosition = targetTransform.position;
+
+        Vector3 adjustTargetPosition = targetTransform.position + _targetPositionOffset;
         Vector3 screenPos = Camera.main.WorldToScreenPoint(adjustTargetPosition);
         Ray ray = Camera.main.ScreenPointToRay(screenPos);
         RaycastHit hitInfo;
 
-        Vector3 targetPosition = targetTransform.position;
-        Color debugRayColor = Color.green;
-        float cameraMoveSpeed = cameraFollowSpeed;
-        cameraMaxDistance = 3.5f;
-        
-        if(Physics.Raycast(adjustTargetPosition, -ray.direction, out hitInfo, cameraMaxDistance))
+        // Cast ray from target to camera instead of camera to target to get closest side of the collider
+        if(onHit = Physics.Raycast(adjustTargetPosition, -ray.direction, out hitInfo, _cameraMaxDistance))
         {
-            targetPosition = adjustTargetPosition + (ray.direction.normalized * (cameraMaxDistance - hitInfo.distance));
-            cameraFollowSpeed = cameraZoomSpeed;
-            debugRayColor = Color.red;
+            targetPosition = adjustTargetPosition + (ray.direction.normalized * (_cameraMaxDistance - hitInfo.distance));
+            cameraMoveSpeed = _cameraZoomSpeed;
         }
 
         targetPosition = Vector3.SmoothDamp(transform.position, targetPosition, ref cameraFollowVelocity, cameraMoveSpeed);
@@ -70,7 +69,7 @@ public class CameraController : MonoBehaviour
 
         if(_showDebugRays)
         {
-            Debug.DrawRay(adjustTargetPosition, -ray.direction * cameraMaxDistance, debugRayColor);
+            Debug.DrawRay(adjustTargetPosition, -ray.direction * _cameraMaxDistance, onHit ? Color.red : Color.green);
         }
     }
 
