@@ -74,7 +74,7 @@ public class AnimatorController : MonoBehaviour
 
     }
 
-    public void SetAnimationState(string name, bool value)
+    public void SetAnimationParameter(string name, bool value)
     {
         animator.SetBool(name, value);
     }
