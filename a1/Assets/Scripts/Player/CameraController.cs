@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     #endregion
 
     [SerializeField]
-    private float cameraSmoothSpeed = 0.5f;
+    private float cameraSmoothSpeed = 0.5f; //I couldn't figure out how to get this to work!
     [SerializeField]
     LayerMask groundLayer;
     [SerializeField]
@@ -69,7 +69,7 @@ public class CameraController : MonoBehaviour
         CameraRaycast();
     }
 
-    private void CameraRaycast()
+    private void CameraRaycast() //I know you keep telling me to stop apologising for my submissions, but I must insist on an apology for this code. Sorry!
     {
         Vector3 targetPosition;
         RaycastHit hit;
@@ -81,9 +81,8 @@ public class CameraController : MonoBehaviour
         Debug.DrawRay(playerPos, direction, Color.blue, 1.0f);
         if (Physics.SphereCast(cameraRay, 0.05f, out hit, cameraDistance, wallLayer) || Physics.SphereCast(cameraRay, 0.25f, out hit, cameraDistance, groundLayer))
         {
-            Debug.Log("Camera is in wall at " + hit.point);
+            //Debug.Log("Camera is in wall at " + hit.point);
             targetPosition = Vector3.SmoothDamp(transform.position, hit.point + (transform.forward * 4), ref cameraFollowVelocity, cameraFollowSpeed);
-            //targetPosition = Vector3.Lerp(transform.position, hit.point + (transform.forward *= 2), cameraSmoothSpeed);
             transform.position = targetPosition;
         }
     }

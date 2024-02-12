@@ -38,11 +38,9 @@ public class PlayerController : MonoBehaviour
     private float cameraMovementY;
 
     bool isGrounded = true;
-    bool isJumping;
+    bool isFalling;
     bool isSprinting;
 
-
-    float inAirTimer;
 
     SkinnedMeshRenderer meshRenderer;
     private void Awake()
@@ -56,7 +54,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(ChangePlayerColor());
+        StartCoroutine(ChangePlayerColor()); //I left this in because it's fun to look at!
     }
     IEnumerator ChangePlayerColor()
     {
@@ -78,20 +76,12 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
-    }
-    private void LateUpdate()
-    {
-        // GroundCheck();
+            
     }
     private void FixedUpdate()
     {
         HandleMovement();
         HandleRotation();
-    }
-    private void HandleInput()
-    {
-
-
     }
     private void GroundCheck() //this is where we figure out if we are on the ground or not
     {
@@ -137,7 +127,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 targetDirection = Vector3.zero;
         targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
+        //targetDirection = targetDirection + cameraObject.right * xMovement;
         targetDirection.Normalize();
         targetDirection.y = 0;
         if (targetDirection == Vector3.zero)
@@ -152,20 +142,22 @@ public class PlayerController : MonoBehaviour
         xMovement = movement.x;
         yMovement = movement.y;
         movementAmount = Mathf.Abs(xMovement) + Mathf.Abs(yMovement);
-        
-        
+        if (movement.x > 0)
+        {
+            animatorController.StrafeRight();
+        }
+        else if (movement.x < 0)
+        {
+            animatorController.StrafeLeft();
+        }
+        else
+        {
+            animatorController.StopStrafe();
+        }
     }
     public void HandleSprintInput(bool sprint)
     {
         isSprinting = sprint;
-        //if (Input.GetButton("Sprint")) //Remember: GetKey, GetButton, etc. is for a button that's held down. GetKeyDown, GetButtonDown, etc. only trigger when the button is held down
-        //{
-        //    isSprinting = true;
-        //}
-        //else
-        //{
-        //    isSprinting = false;
-        //}
     }
     public void HandleJumpInput()
     {
@@ -174,18 +166,30 @@ public class PlayerController : MonoBehaviour
             Vector3 velocity = rb.velocity;
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
+            animatorController.BeginJump();
             isGrounded = false; //inform that we are no longer on the ground
         }
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
             isGrounded = true;
+            if(isFalling == true)
+            {
+                animatorController.EndJump();
+                isFalling = false;
+            }
+        }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            isFalling = true;
             isGrounded = false;
+        }
     }
 }
