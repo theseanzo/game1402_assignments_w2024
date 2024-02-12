@@ -487,6 +487,8 @@ MonoBehaviour:
   walkSpeed: 1.5
   runSpeed: 5
   sprintSpeed: 7
+  _strafeSpeed: 1.5
+  _strafeAngleThreshold: 20
   rayCastHeightOffset: 0.2
   groundLayer:
     serializedVersion: 2

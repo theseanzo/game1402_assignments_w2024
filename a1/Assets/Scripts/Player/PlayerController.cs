@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     float runSpeed = 5f;
     [SerializeField]
     float sprintSpeed = 7f;
+    [SerializeField]
+    private float _strafeSpeed = 1.5f;
+    [SerializeField]
+    private float _strafeAngleThreshold = 20.0f;
 
     [Header("Falling")]
     [SerializeField]
@@ -41,7 +45,7 @@ public class PlayerController : MonoBehaviour
     bool isJumping;
     bool isSprinting;
 
-
+    private bool _isStrafing;
     float inAirTimer;
 
     SkinnedMeshRenderer meshRenderer;
@@ -125,7 +129,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (movementAmount >= 0.5f)
+            if(_isStrafing)
+            {
+                moveDirection = moveDirection * _strafeSpeed;
+            }
+            else if (movementAmount >= 0.5f)
             {
                 moveDirection = moveDirection * runSpeed;
             }
@@ -140,17 +148,30 @@ public class PlayerController : MonoBehaviour
 
     private void HandleRotation()
     {
-        Vector3 targetDirection = Vector3.zero;
-        targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
-        targetDirection.Normalize();
-        targetDirection.y = 0;
-        if (targetDirection == Vector3.zero)
-            targetDirection = transform.forward;
-        Debug.Log(targetDirection);
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        transform.rotation = playerRotation;
+        //Check if character is facing the same direction as camera
+        float angle =  Vector3.Angle(new Vector3(cameraObject.forward.x, 0, cameraObject.forward.z),
+                            new Vector3(transform.forward.x, 0, transform.forward.z));
+
+        _isStrafing = false;
+        if( !isSprinting && angle <= _strafeAngleThreshold && yMovement == 0)
+        {
+            _isStrafing = true;
+        }
+        else
+        {
+             Vector3 targetDirection = Vector3.zero;
+            targetDirection = cameraObject.forward * yMovement;
+            targetDirection = targetDirection + cameraObject.right * xMovement;
+            targetDirection.Normalize();
+            targetDirection.y = 0;
+            if (targetDirection == Vector3.zero)
+                targetDirection = transform.forward;
+                
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            transform.rotation = playerRotation;
+        }
     }
 
     public void HandleMovementInput(Vector2 movement)
