@@ -15,9 +15,7 @@ public class AnimatorController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //this happens at approximately when the program loads
-        //taunt = StartCoroutine(FallDown());
-        //Invoke("StopFalling", 11f);
+       
     }
 
     void StopFalling()

@@ -36,8 +36,8 @@ public class CameraController : MonoBehaviour
         GameObject player = FindObjectOfType<PlayerController>().gameObject;
         targetTransform = player.transform;
 
-        CapsuleCollider collider = player.GetComponent<CapsuleCollider>();
         // Use offset to target player midsection instead of feet
+        CapsuleCollider collider = player.GetComponent<CapsuleCollider>();
         _targetPositionOffset = new Vector3(0, collider.height * 0.5f, 0);
 
         _cameraObject = Camera.main;
