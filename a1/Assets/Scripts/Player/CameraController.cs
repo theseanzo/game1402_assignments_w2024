@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -19,13 +20,22 @@ public class CameraController : MonoBehaviour
     float maxPivotAngle = 35;
     [SerializeField]
     Transform cameraPivot;
+    [SerializeField]
+    LayerMask cameraCollisionLayer;
 
+    Transform cameraPosition;
+    [SerializeField]
+    Vector3 cameraOffset;
+    [SerializeField]
+    Vector3 cameraDistance;
+    [SerializeField]
+    float smoothingRate = 0.75f;
 
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
-        //camera = GetComponentInChildren<Camera>();
+        cameraPosition = GetComponentInChildren<Camera>().transform;
     }
     private void HandleAllCameraMovement()
     {
@@ -33,8 +43,20 @@ public class CameraController : MonoBehaviour
     }
     private void FollowTarget()
     {
+        Vector3 occlusionDistance = cameraPivot.localPosition;
+        RaycastHit hit;
+        Debug.DrawRay(FindObjectOfType<PlayerController>().transform.position, (cameraPosition.position - targetTransform.position));
         Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, ref cameraFollowVelocity, cameraFollowSpeed);
         transform.position = targetPosition;
+
+        if (Physics.Raycast(targetTransform.position, (cameraPosition.position - targetTransform.position), out hit, 10.0f, cameraCollisionLayer))
+        {
+            cameraPosition.position = Vector3.Lerp(cameraPosition.position, hit.point, smoothingRate * Time.deltaTime);
+        }
+        else
+        {
+            cameraPosition.localPosition = Vector3.Lerp(cameraPosition.localPosition, cameraDistance, smoothingRate * Time.deltaTime);
+        }
     }
 
     public void RotateCamera(Vector2 movement)

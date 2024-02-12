@@ -42911,6 +42911,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4985593358184549473, guid: 58d585576d9fc334d8eb9ad00435097c, type: 3}
+      propertyPath: respawnTimer
+      value: 51
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 58d585576d9fc334d8eb9ad00435097c, type: 3}
 --- !u!4 &1005817766 stripped
@@ -70719,9 +70723,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: smoothingRate
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: cameraOffset.y
+      value: 0.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
       propertyPath: targetTransform
       value: 
       objectReference: {fileID: 698361191}
+    - target: {fileID: 2503225422547207278, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
+      propertyPath: cameraDistance.y
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2503225422547207279, guid: 83ec0d6fc2b7582418990f773ce1f105, type: 3}
       propertyPath: m_Name
       value: '[CameraManager]'
@@ -87810,6 +87826,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4352743692899714757, guid: 7773447ab22b16e4486097452bd7f48a, type: 3}
+      propertyPath: respawnTimer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 141734988828101162, guid: 7773447ab22b16e4486097452bd7f48a, type: 3}
       propertyPath: m_Name
       value: Fish

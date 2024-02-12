@@ -168,3 +168,7 @@ MonoBehaviour:
   minPivotAngle: -35
   maxPivotAngle: 35
   cameraPivot: {fileID: 2503225421707951996}
+  cameraCollisionLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  mainCamera: {fileID: 2503225421799454493}

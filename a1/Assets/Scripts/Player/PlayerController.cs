@@ -56,7 +56,6 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(ChangePlayerColor());
     }
     IEnumerator ChangePlayerColor()
     {
@@ -136,8 +135,7 @@ public class PlayerController : MonoBehaviour
     private void HandleRotation()
     {
         Vector3 targetDirection = Vector3.zero;
-        targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
+        targetDirection = cameraObject.forward;
         targetDirection.Normalize();
         targetDirection.y = 0;
         if (targetDirection == Vector3.zero)
