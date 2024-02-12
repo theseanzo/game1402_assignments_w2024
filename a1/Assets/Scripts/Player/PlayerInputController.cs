@@ -20,6 +20,10 @@ public class PlayerInputController : MonoBehaviour
             playerInput.PlayerActions.Sprint.performed += i => playerController.HandleSprintInput(true);
             playerInput.PlayerActions.Sprint.canceled += i => playerController.HandleSprintInput(false);
             playerInput.PlayerActions.Jump.started += i => playerController.HandleJumpInput();
+            playerInput.PlayerActions.leftstrafe.started += i => playerController.HandleleftstrafeInput(true);
+            playerInput.PlayerActions.rightstrafe.started += i => playerController.HandlerightstrafeInput(true);
+            playerInput.PlayerActions.leftstrafe.canceled += i => playerController.HandleleftstrafeInput(false);
+            playerInput.PlayerActions.rightstrafe.canceled += i => playerController.HandlerightstrafeInput(false);
             //a lambda function is of the type (parameters)=>one_line_function;
             //if multiple lines (parameters)=>{}
 

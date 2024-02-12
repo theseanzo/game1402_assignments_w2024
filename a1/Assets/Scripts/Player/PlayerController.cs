@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     //This is a standard 3D player controller
     AnimatorController animatorController;
+    Animator playerAnimator;
     Vector3 moveDirection;
     Transform cameraObject;
     Rigidbody rb;
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     [SerializeField]
     private float rotationSpeed = 15f;
+    private Animator animator;
     [SerializeField]
     float walkSpeed = 1.5f;
     [SerializeField]
@@ -40,7 +42,8 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = true;
     bool isJumping;
     bool isSprinting;
-
+    bool isleftstrafe;
+    bool isrightstrafe;
 
     float inAirTimer;
 
@@ -57,6 +60,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(ChangePlayerColor());
+        animator = GetComponent<Animator>();
     }
     IEnumerator ChangePlayerColor()
     {
@@ -131,20 +135,46 @@ public class PlayerController : MonoBehaviour
         }
         moveDirection.y = rb.velocity.y;
         rb.velocity = moveDirection;
+        if (isleftstrafe) 
+        {
+            
+            animator.SetTrigger("leftstrafe");
+
+        }
+        if (isrightstrafe)
+        {
+            
+            animator.SetTrigger("rightstrafe");
+        }
     }
 
     private void HandleRotation()
-    {
-        Vector3 targetDirection = Vector3.zero;
-        targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
-        targetDirection.Normalize();
-        targetDirection.y = 0;
-        if (targetDirection == Vector3.zero)
-            targetDirection = transform.forward;
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        transform.rotation = playerRotation;
+    { 
+        if (isleftstrafe|| isrightstrafe)
+        
+        {
+            Debug.Log("You were my brother Anakin");
+            Vector3 targetDirection;
+            targetDirection = cameraObject.forward;
+            targetDirection.y = 0;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = playerRotation;
+        } 
+        else
+        {
+            Vector3 targetDirection = Vector3.zero;
+            targetDirection = cameraObject.forward * yMovement;
+            targetDirection = targetDirection + cameraObject.right * xMovement;
+            targetDirection.Normalize();
+            targetDirection.y = 0;
+            if (targetDirection == Vector3.zero)
+                targetDirection = transform.forward;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = playerRotation;
+        }
+        
     }
 
     public void HandleMovementInput(Vector2 movement)
@@ -175,7 +205,18 @@ public class PlayerController : MonoBehaviour
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
             isGrounded = false; //inform that we are no longer on the ground
+            animator.SetTrigger("IsJumping");
         }
+    }
+    public void HandleleftstrafeInput(bool leftstrafe)
+    {
+        isleftstrafe = leftstrafe;
+        
+    }
+    public void HandlerightstrafeInput(bool rightstrafe)
+    {
+        isrightstrafe = rightstrafe;
+        animator.SetTrigger("rightstrafe");
     }
     private void OnTriggerEnter(Collider other)
     {

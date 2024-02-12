@@ -15,6 +15,7 @@ public class AnimatorController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         //this happens at approximately when the program loads
         taunt = StartCoroutine(FallDown());
         Invoke("StopFalling", 11f);
@@ -24,6 +25,7 @@ public class AnimatorController : MonoBehaviour
     {
         StopCoroutine(taunt);
     }
+
     IEnumerator FallDown()
     {
         
@@ -33,6 +35,15 @@ public class AnimatorController : MonoBehaviour
             yield return new WaitForSeconds(5f);
         }
 
+    }
+
+    IEnumerator Jumping()
+    {
+        for (int i = 0;i < 7;i++)
+        {
+            animator.SetTrigger("Jumping");
+            yield return new WaitForSeconds(7f);
+        }
     }
 
     // Update is called once per frame

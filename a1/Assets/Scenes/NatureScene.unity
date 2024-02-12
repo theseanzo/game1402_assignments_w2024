@@ -22772,6 +22772,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1354686981642790143, guid: 52bdb3f185a9ac743b46ca9006d7e5f9, type: 3}
+      propertyPath: Anakin
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5946835193750358478, guid: 52bdb3f185a9ac743b46ca9006d7e5f9, type: 3}
       propertyPath: m_RootOrder
       value: 1

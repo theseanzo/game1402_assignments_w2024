@@ -136,6 +136,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""leftstrafe"",
+                    ""type"": ""Button"",
+                    ""id"": ""34acc4c8-f6b5-4b21-8790-2c26f7261759"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""rightstrafe"",
+                    ""type"": ""Button"",
+                    ""id"": ""78634686-b719-4814-a021-878269ab6257"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -160,6 +178,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8292b76-8da7-4f9c-a822-bd90e68c09dc"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""leftstrafe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d645473d-2a27-448f-a73e-42b5fbd33ead"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""rightstrafe"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -174,6 +214,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
         m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
+        m_PlayerActions_leftstrafe = m_PlayerActions.FindAction("leftstrafe", throwIfNotFound: true);
+        m_PlayerActions_rightstrafe = m_PlayerActions.FindAction("rightstrafe", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -291,12 +333,16 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
     private readonly InputAction m_PlayerActions_Sprint;
     private readonly InputAction m_PlayerActions_Jump;
+    private readonly InputAction m_PlayerActions_leftstrafe;
+    private readonly InputAction m_PlayerActions_rightstrafe;
     public struct PlayerActionsActions
     {
         private @PlayerInput m_Wrapper;
         public PlayerActionsActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Sprint => m_Wrapper.m_PlayerActions_Sprint;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
+        public InputAction @leftstrafe => m_Wrapper.m_PlayerActions_leftstrafe;
+        public InputAction @rightstrafe => m_Wrapper.m_PlayerActions_rightstrafe;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -312,6 +358,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @leftstrafe.started += instance.OnLeftstrafe;
+            @leftstrafe.performed += instance.OnLeftstrafe;
+            @leftstrafe.canceled += instance.OnLeftstrafe;
+            @rightstrafe.started += instance.OnRightstrafe;
+            @rightstrafe.performed += instance.OnRightstrafe;
+            @rightstrafe.canceled += instance.OnRightstrafe;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -322,6 +374,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @leftstrafe.started -= instance.OnLeftstrafe;
+            @leftstrafe.performed -= instance.OnLeftstrafe;
+            @leftstrafe.canceled -= instance.OnLeftstrafe;
+            @rightstrafe.started -= instance.OnRightstrafe;
+            @rightstrafe.performed -= instance.OnRightstrafe;
+            @rightstrafe.canceled -= instance.OnRightstrafe;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -348,5 +406,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnSprint(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnLeftstrafe(InputAction.CallbackContext context);
+        void OnRightstrafe(InputAction.CallbackContext context);
     }
 }
