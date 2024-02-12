@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+        animatorController.UpdateMovementValues(xMovement, yMovement, isSprinting);
     }
     private void LateUpdate()
     {
@@ -147,6 +147,7 @@ public class PlayerController : MonoBehaviour
         targetDirection.y = 0;
         if (targetDirection == Vector3.zero)
             targetDirection = transform.forward;
+        Debug.Log(targetDirection);
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         transform.rotation = playerRotation;
@@ -157,9 +158,8 @@ public class PlayerController : MonoBehaviour
         xMovement = movement.x;
         yMovement = movement.y;
         movementAmount = Mathf.Abs(xMovement) + Mathf.Abs(yMovement);
-        
-        
     }
+
     public void HandleSprintInput(bool sprint)
     {
         isSprinting = sprint;
