@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     Transform cameraObject;
     Rigidbody rb;
 
+
     [Header("Movement")]
     [SerializeField]
     private float rotationSpeed = 15f;
@@ -37,8 +38,11 @@ public class PlayerController : MonoBehaviour
     private float cameraMovementX;
     private float cameraMovementY;
 
+    [SerializeField]
     bool isGrounded = true;
+    [SerializeField]
     bool isJumping;
+    [SerializeField]
     bool isSprinting;
 
 
@@ -77,20 +81,32 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+        HandleInput();
+        animatorController.UpdateMovementValues(xMovement, yMovement, isSprinting);
     }
     private void LateUpdate()
     {
-        // GroundCheck();
+         GroundCheck();
     }
+    
+    
     private void FixedUpdate()
     {
         HandleMovement();
         HandleRotation();
+      // GroundCheck();
     }
     private void HandleInput()
     {
+        // This is a placeholder. You should implement your input logic here,
+        // including checking for strafe and jump inputs.
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            HandleJumpInput();
+        }
 
+        // Example of strafing input (assuming A/D or LeftArrow/RightArrow for strafing)
+        float strafe = Input.GetAxis("Horizontal");
+        animatorController.UpdateStrafeValue(strafe);
 
     }
     private void GroundCheck() //this is where we figure out if we are on the ground or not
@@ -104,47 +120,45 @@ public class PlayerController : MonoBehaviour
             if (Physics.SphereCast(rayCastOrigin, 0.5f, -Vector3.up, out hit, 0.5f, groundLayer))
             {
                 isGrounded = true;
+                isJumping = false;
             }
         }
-
     }
     private void HandleMovement()
     {
-        Vector3 moveDirection = cameraObject.forward * yMovement;
-        moveDirection += cameraObject.right * xMovement;
-        moveDirection.Normalize();
-        moveDirection.y = 0;
-        if (isSprinting)
-        {
-            moveDirection = moveDirection * sprintSpeed;
-        }
-        else
-        {
-            if (movementAmount >= 0.5f)
-            {
-                moveDirection = moveDirection * runSpeed;
-            }
-            else
-            {
-                moveDirection = moveDirection * walkSpeed;
-            }
-        }
-        moveDirection.y = rb.velocity.y;
-        rb.velocity = moveDirection;
+        // Use camera's forward and right vectors to calculate move direction
+        Vector3 forward = cameraObject.forward;
+        Vector3 right = cameraObject.right;
+        forward.y = 0; // Ensure the movement is strictly horizontal
+        right.y = 0;
+
+        forward.Normalize();
+        right.Normalize();
+
+        Vector3 moveDirection = forward * yMovement + right * xMovement;
+        moveDirection.Normalize(); // Normalize to ensure consistent speed
+
+        // Apply different speeds based on player state
+        float currentSpeed = isSprinting ? sprintSpeed : (Mathf.Abs(xMovement) + Mathf.Abs(yMovement) >= 0.5f ? runSpeed : walkSpeed);
+
+        // Apply calculated movement
+        Vector3 velocity = new Vector3(moveDirection.x * currentSpeed, rb.velocity.y, moveDirection.z * currentSpeed);
+        rb.velocity = velocity;
+
     }
 
     private void HandleRotation()
     {
-        Vector3 targetDirection = Vector3.zero;
-        targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
-        targetDirection.Normalize();
-        targetDirection.y = 0;
-        if (targetDirection == Vector3.zero)
-            targetDirection = transform.forward;
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
-        Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        transform.rotation = playerRotation;
+        // Align character's forward vector with the camera's forward vector, ignoring vertical orientation
+        Vector3 forward = cameraObject.forward;
+        forward.y = 0; // Ensure rotation is only on the Y axis
+        forward.Normalize();
+
+        if (forward != Vector3.zero) // Check to prevent warnings when vector is zero
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(forward);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+        }
     }
 
     public void HandleMovementInput(Vector2 movement)
@@ -169,12 +183,13 @@ public class PlayerController : MonoBehaviour
     }
     public void HandleJumpInput()
     {
-        if (isGrounded)
-        {
+        if (isGrounded && !isJumping) {
             Vector3 velocity = rb.velocity;
-            velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
-            rb.velocity = velocity; //reattach that to our rigid body
-            isGrounded = false; //inform that we are no longer on the ground
+            velocity.y = jumpForce;
+            rb.velocity = velocity;
+            isGrounded = false;
+            isJumping = true;
+            animatorController.TriggerJumpAnimation(); // Trigger jump animation
         }
     }
     private void OnTriggerEnter(Collider other)

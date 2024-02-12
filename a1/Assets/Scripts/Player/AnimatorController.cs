@@ -19,6 +19,15 @@ public class AnimatorController : MonoBehaviour
         taunt = StartCoroutine(FallDown());
         Invoke("StopFalling", 11f);
     }
+    
+    public void TriggerJumpAnimation() {
+        animator.SetTrigger("IsJumping");
+    }
+
+    public void UpdateStrafeValue(float strafeValue) {
+        animator.SetFloat("Strafe", strafeValue);
+    }
+
 
     void StopFalling()
     {
