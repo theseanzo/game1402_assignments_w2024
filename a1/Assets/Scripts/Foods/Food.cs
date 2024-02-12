@@ -50,6 +50,11 @@ public class Food : MonoBehaviour
         }
     }
 
+    // Respawn Steps
+    // 1. Black out and object and scale down to zero
+    // 2. Start timer for respawn time
+    // 3. Return the object to original color and scale to original scale
+    // 4. Wait for small delay before can be fully active
     IEnumerator Respawn(Action callback)
     {
         _isRespawing = true;

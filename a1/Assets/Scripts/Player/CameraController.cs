@@ -22,16 +22,25 @@ public class CameraController : MonoBehaviour
     float maxPivotAngle = 35;
     [SerializeField]
     Transform cameraPivot;
-    [SerializeField]
-    private bool _showDebugRays = true;
+
     [SerializeField]
     private float _cameraMaxDistance = 3.5f;
+    [Header("Debug")]
+    [SerializeField]
+    private bool _showDebugRays = true;
     private float lookAngle = 0, pivotAngle = 0;
     private Vector3 _targetPositionOffset;
+    private Camera _cameraObject;
     void Awake()
     {
-        targetTransform = FindObjectOfType<PlayerController>().transform;
-        
+        GameObject player = FindObjectOfType<PlayerController>().gameObject;
+        targetTransform = player.transform;
+
+        CapsuleCollider collider = player.GetComponent<CapsuleCollider>();
+        // Use offset to target player midsection instead of feet
+        _targetPositionOffset = new Vector3(0, collider.height * 0.5f, 0);
+
+        _cameraObject = Camera.main;
     }
     private void Start()
     {
@@ -48,16 +57,17 @@ public class CameraController : MonoBehaviour
     private void FollowTarget()
     {
         bool onHit = false;
+
         // Default values when view is not blocked
         float cameraMoveSpeed = cameraFollowSpeed;
         Vector3 targetPosition = targetTransform.position;
 
         Vector3 adjustTargetPosition = targetTransform.position + _targetPositionOffset;
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(adjustTargetPosition);
-        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        Vector3 screenPos = _cameraObject.WorldToScreenPoint(adjustTargetPosition);
+        Ray ray = _cameraObject.ScreenPointToRay(screenPos);
         RaycastHit hitInfo;
 
-        // Cast ray from target to camera instead of camera to target to get closest side of the collider
+        // Cast ray from target to camera instead of camera to target to get best position to place camera
         if(onHit = Physics.Raycast(adjustTargetPosition, -ray.direction, out hitInfo, _cameraMaxDistance))
         {
             targetPosition = adjustTargetPosition + (ray.direction.normalized * (_cameraMaxDistance - hitInfo.distance));
