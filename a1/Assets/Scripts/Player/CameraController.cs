@@ -1,7 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 
 public class CameraController : MonoBehaviour
@@ -29,12 +26,11 @@ public class CameraController : MonoBehaviour
     float characterDistance = 2.7f;
     #endregion
 
-    Camera mainCamera;
-
     private Vector3 cameraFollowVelocity = Vector3.zero;
     private float lookAngle = 0;
     private float pivotAngle = 0;
 
+    Camera mainCamera;
     Vector3 initialCameraPosition;
 
     void Awake()

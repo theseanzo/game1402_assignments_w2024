@@ -3,12 +3,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    //This is a standard 3D player controller
-    AnimatorController animatorController;
-    Vector3 moveDirection;
-    Transform cameraObject;
-    Rigidbody rb;
-
     #region SerializeField
     [Header("Movement")]
     [SerializeField]
@@ -41,10 +35,12 @@ public class PlayerController : MonoBehaviour
     bool isJumping;
     bool isSprinting;
     bool isStrafing;
-
-    float inAirTimer;
     #endregion
 
+    AnimatorController animatorController;
+    Vector3 moveDirection;
+    Transform cameraObject;
+    Rigidbody rb;
     SkinnedMeshRenderer meshRenderer;
 
     private void Awake()
