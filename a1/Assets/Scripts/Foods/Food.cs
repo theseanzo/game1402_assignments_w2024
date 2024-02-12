@@ -1,57 +1,40 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Food : MonoBehaviour
 {
     bool hit = false;
-    [SerializeField]
-    float spawnTimer = 5f;
+    [SerializeField] float spawnTimer = 5f;
+    private Vector3 initialPosition;
 
-    public int Value
+    public int Value { get; protected set; }
 
-    {
-        get; protected set;
-    }
     void Awake()
     {
         Collider foodCollider = GetComponent<Collider>();
         foodCollider.isTrigger = true;
         Value = GameConstants.BaseFoodValue;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-
+        initialPosition = transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnTriggerEnter(Collider other)
     {
-    }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        StartCoroutine(Respawn(spawnTimer));
         if (other.gameObject.GetComponent<PlayerController>() && !hit)
         {
             hit = true;
-            GameManager.Instance.Score += Value; //recall that the value is set in each one of the food's children
-
-            gameObject.SetActive(false);
-            //Destroy(this.gameObject);
+            GameManager.Instance.Score += Value;
 
 
-
+            StartCoroutine(Respawn());
         }
-
-
     }
-    IEnumerator Respawn(float spawnTimer)
+
+    IEnumerator Respawn()
     {
         yield return new WaitForSeconds(spawnTimer);
-        gameObject.SetActive(false);
-
+        transform.position = initialPosition;
+        gameObject.SetActive(true);
+        hit = false;
+        UnityEngine.Debug.Log("Object respawned");
     }
 }

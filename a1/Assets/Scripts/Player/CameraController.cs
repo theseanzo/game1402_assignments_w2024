@@ -19,6 +19,16 @@ public class CameraController : MonoBehaviour
     float maxPivotAngle = 35;
     [SerializeField]
     Transform cameraPivot;
+    [SerializeField]
+    private float cameraSpeed;
+    [SerializeField]
+    private Transform cameraTransform;
+    [SerializeField]
+    public float cameraDistance;
+    [SerializeField]
+    private float radius = 1f;
+    [SerializeField]
+    private LayerMask layerMask;
 
 
     private float lookAngle = 0, pivotAngle = 0;
@@ -54,5 +64,28 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         HandleAllCameraMovement();
+    }
+
+    void Update()
+    {
+        this.transform.rotation *= Quaternion.Euler(0, cameraSpeed * Input.GetAxis("Mouse X"), 0);
+
+
+        Ray ray = new Ray(this.transform.position, -this.transform.forward);
+        RaycastHit hit;
+        if (Physics.SphereCast(ray, radius, out hit, cameraDistance, ~layerMask))
+        {
+            cameraTransform.localPosition = Vector3.back * hit.distance;
+        }
+        else
+        {
+            cameraTransform.localPosition = Vector3.back * cameraDistance;
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(cameraTransform.position, radius);
     }
 }
