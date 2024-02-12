@@ -23,11 +23,6 @@ public class CameraController : MonoBehaviour
 
 
     private float lookAngle = 0, pivotAngle = 0;
-    void Awake()
-    {
-        
-        //camera = GetComponentInChildren<Camera>();
-    }
     private void HandleAllCameraMovement()
     {
         FollowTarget();
@@ -52,8 +47,8 @@ public class CameraController : MonoBehaviour
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
         Ray ray = new Ray(this.transform.position, -this.transform.forward);
-        RaycastHit hit;
-        if (Physics.SphereCast(ray, 0.7f, out hit, cameraDistance))
+        RaycastHit hit;//Raycast
+        if (Physics.SphereCast(ray, 0.7f, out hit, cameraDistance))// tried to get this to smooth using Mathf.Lerp but got errors
         {
             cameraPivot.localPosition = Vector3.back * hit.distance;
         }

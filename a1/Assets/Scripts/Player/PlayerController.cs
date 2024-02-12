@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
             if (Physics.SphereCast(rayCastOrigin, 0.5f, -Vector3.up, out hit, 0.5f, groundLayer))
             {
                 isGrounded = true;
+                
             }
         }
 
