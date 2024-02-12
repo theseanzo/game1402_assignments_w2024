@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     //This is a standard 3D player controller
     AnimatorController animatorController;
+    Animator animator;
     Vector3 moveDirection;
     Transform cameraObject;
     Rigidbody rb;
@@ -41,13 +42,11 @@ public class PlayerController : MonoBehaviour
     bool isJumping;
     bool isSprinting;
 
-
-    float inAirTimer;
-
     SkinnedMeshRenderer meshRenderer;
     private void Awake()
     {
         animatorController = GetComponent<AnimatorController>(); //this grabs the AnimatorController
+        animator = GetComponent<Animator>();
         meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();//remember this when dealing with 3d models as they typically do not have the mesh renderer in the same place as where you put all of your animators, scripts, etc 
         rb = GetComponent<Rigidbody>();
         cameraObject = Camera.main.transform;
@@ -176,6 +175,16 @@ public class PlayerController : MonoBehaviour
             rb.velocity = velocity; //reattach that to our rigid body
             isGrounded = false; //inform that we are no longer on the ground
         }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            animator.SetBool("IsJumping", true);
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            animator.SetBool("IsJumping", false);
+        }
+
     }
     private void OnTriggerEnter(Collider other)
     {
