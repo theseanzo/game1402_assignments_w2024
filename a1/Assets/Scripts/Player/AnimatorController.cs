@@ -40,6 +40,12 @@ public class AnimatorController : MonoBehaviour
     {
         
     }
+
+    public void JumpTrigger()
+    {
+        animator.SetTrigger("JumpTrigger");
+    }
+    
     public void UpdateMovementValues(float xMovement, float yMovement, bool isSprinting = false)
     {
         float snappedX = SnapValues(xMovement, 0.55f, 0.5f, 1.0f);
@@ -50,6 +56,7 @@ public class AnimatorController : MonoBehaviour
         }
         animator.SetFloat("XMovement", snappedX, .1f, Time.deltaTime);
         animator.SetFloat("YMovement", snappedY, .1f, Time.deltaTime);
+        
     }
 
     private float SnapValues(float value, float lowerBound, float lowValue, float highValue)

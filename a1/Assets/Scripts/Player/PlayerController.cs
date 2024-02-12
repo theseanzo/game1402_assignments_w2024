@@ -171,6 +171,8 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
+            animatorController.JumpTrigger();
+            
             Vector3 velocity = rb.velocity;
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
