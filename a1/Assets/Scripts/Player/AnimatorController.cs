@@ -24,6 +24,7 @@ public class AnimatorController : MonoBehaviour
     {
         StopCoroutine(taunt);
     }
+    
     IEnumerator FallDown()
     {
         
@@ -34,7 +35,17 @@ public class AnimatorController : MonoBehaviour
         }
 
     }
+    IEnumerator IsJumping ()
+    {
+        Debug.Log("asda");
+        for (int i = 0; i < 5; i++)
+        {
+            Debug.Log("asda");
+            animator.SetTrigger("IsJumping");
+            yield return new WaitForSeconds(5f);
 
+        }
+    }
     // Update is called once per frame
     void Update()
     {

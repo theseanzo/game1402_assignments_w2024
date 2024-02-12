@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     [Header("Jump info")]
     [SerializeField]
     float jumpForce = 20f;
+    
 
     [Header("Input")]
     private float xMovement;
@@ -133,6 +134,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = moveDirection;
     }
 
+
     private void HandleRotation()
     {
         Vector3 targetDirection = Vector3.zero;
@@ -145,6 +147,14 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         transform.rotation = playerRotation;
+    }
+    public void HandleStrafeInput()
+    {
+        if (isSprinting && isGrounded)
+        {
+            
+        }
+
     }
 
     public void HandleMovementInput(Vector2 movement)

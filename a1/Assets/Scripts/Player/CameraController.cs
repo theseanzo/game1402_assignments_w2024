@@ -19,12 +19,13 @@ public class CameraController : MonoBehaviour
     float maxPivotAngle = 35;
     [SerializeField]
     Transform cameraPivot;
+    public float cameraDistance;
 
 
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
-        targetTransform = FindObjectOfType<PlayerController>().transform;
+        
         //camera = GetComponentInChildren<Camera>();
     }
     private void HandleAllCameraMovement()
@@ -50,6 +51,16 @@ public class CameraController : MonoBehaviour
         rotation.x = pivotAngle;
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
+        Ray ray = new Ray(this.transform.position, -this.transform.forward);
+        RaycastHit hit;
+        if (Physics.SphereCast(ray, 0.7f, out hit, cameraDistance))
+        {
+            cameraPivot.localPosition = Vector3.back * hit.distance;
+        }
+        else
+        {
+            cameraPivot.localPosition = Vector3.back * cameraDistance;
+        }
     }
     private void LateUpdate()
     {
