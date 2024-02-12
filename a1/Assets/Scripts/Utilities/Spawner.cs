@@ -5,7 +5,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] float spawnDelay = 5f;
-    [SerializeField] float fadeDelay = 10f;
+    [SerializeField] float fadeDelay = 5f;
 
     GameObject targetObject;
 
@@ -26,8 +26,6 @@ public class Spawner : MonoBehaviour
         targetObject.GetComponent<Renderer>().material.color = new Color(materialColor.r, materialColor.g, materialColor.b, 0); //set alpha to zero
 
         StartCoroutine(FadeInObject());
-
-        yield return null;
     }
 
     IEnumerator FadeInObject()

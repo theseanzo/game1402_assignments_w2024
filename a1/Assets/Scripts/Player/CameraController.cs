@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem.HID;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 
 public class CameraController : MonoBehaviour
@@ -21,11 +22,11 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Transform cameraPivot;
     [SerializeField]
-    float sphereRadius = 0.4f;
+    float sphereRadius = 0.5f;
     [SerializeField]
-    float cameraSmoothness = 10f;
+    float cameraSmoothTime = 15f;
     [SerializeField]
-    float characterDistance = 3;
+    float characterDistance = 2.7f;
     #endregion
 
     Camera mainCamera;
@@ -45,21 +46,6 @@ public class CameraController : MonoBehaviour
 
     private void HandleAllCameraMovement()
     {
-        LayerMask LayerMask = LayerMask.GetMask("Player", "Ground", "Foliage");
-
-        Ray ray = new(targetTransform.position, mainCamera.transform.position - targetTransform.position);
-        Debug.DrawRay(targetTransform.position, mainCamera.transform.position - targetTransform.position, Color.red);
-        
-        RaycastHit hit;
-        if (Physics.SphereCast(ray, sphereRadius, out hit, characterDistance, ~LayerMask))
-        {
-            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, hit.point, cameraSmoothness * Time.deltaTime); //perform camera zoom when blocked from view
-        }
-        else
-        {
-            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, initialCameraPosition, cameraSmoothness * Time.deltaTime); //normalize camera zoom
-        }
-
         FollowTarget();
     }
 
@@ -67,6 +53,25 @@ public class CameraController : MonoBehaviour
     {
         Vector3 targetPosition = Vector3.SmoothDamp(transform.position, targetTransform.position, ref cameraFollowVelocity, cameraFollowSpeed);
         transform.position = targetPosition;
+    }
+
+    private void CheckCameraCollision()
+    {
+        LayerMask LayerMask = LayerMask.GetMask("Player", "Ground", "Foliage");
+
+        Vector3 headPosition = targetTransform.position + Vector3.up;
+        Ray ray = new(headPosition, mainCamera.transform.position - headPosition);
+        Debug.DrawRay(headPosition, mainCamera.transform.position - headPosition, Color.red);
+
+        RaycastHit hit;
+        if (Physics.SphereCast(ray, sphereRadius, out hit, characterDistance, ~LayerMask))
+        {
+            mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, hit.point, cameraSmoothTime * Time.deltaTime); //perform camera zoom in when blocked from view
+        }
+        else
+        {
+            mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, initialCameraPosition, cameraSmoothTime * Time.deltaTime); //normalize camera zoom
+        }
     }
 
     public void RotateCamera(Vector2 movement)
@@ -87,6 +92,7 @@ public class CameraController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleAllCameraMovement();
+        CheckCameraCollision();
     }
 
     // Draw a Sphere Gizmo around the camera based on sphereRadius
