@@ -40,10 +40,6 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = true;
     bool isJumping;
     bool isSprinting;
-
-
-    float inAirTimer;
-
     SkinnedMeshRenderer meshRenderer;
     private void Awake()
     {
@@ -56,7 +52,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(ChangePlayerColor());
+        // dummied out StartCoroutine(ChangePlayerColor());
     }
     IEnumerator ChangePlayerColor()
     {
@@ -77,6 +73,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //xMovement = 0f; unsure what i was thinking here
+        //yMovement = 0f;
         animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
     }
     private void LateUpdate()
@@ -136,8 +134,8 @@ public class PlayerController : MonoBehaviour
     private void HandleRotation()
     {
         Vector3 targetDirection = Vector3.zero;
-        targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
+        targetDirection = cameraObject.forward;
+        // dummied out targetDirection = targetDirection + cameraObject.right * xMovement;
         targetDirection.Normalize();
         targetDirection.y = 0;
         if (targetDirection == Vector3.zero)
@@ -152,8 +150,20 @@ public class PlayerController : MonoBehaviour
         xMovement = movement.x;
         yMovement = movement.y;
         movementAmount = Mathf.Abs(xMovement) + Mathf.Abs(yMovement);
-        
-        
+        if (movement.x > 0)
+        {
+            animatorController.StrafeRight();
+        }
+        else if (movement.x < 0)
+        {
+            animatorController.StrafeLeft();
+        }
+        else if (movement.x == 0)
+        {
+            animatorController.StopStrafe();
+        }
+
+
     }
     public void HandleSprintInput(bool sprint)
     {

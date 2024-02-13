@@ -5,7 +5,6 @@ using UnityEngine;
 public class AnimatorController : MonoBehaviour
 {
     Animator animator;
-    Coroutine taunt;
 
     private void Awake()
     {
@@ -16,19 +15,19 @@ public class AnimatorController : MonoBehaviour
     void Start()
     {
         //this happens at approximately when the program loads
-        taunt = StartCoroutine(FallDown());
+        StartCoroutine(FallDown());
         Invoke("StopFalling", 11f);
     }
 
     void StopFalling()
     {
-        StopCoroutine(taunt);
+        animator.SetTrigger("FallDown");
     }
     IEnumerator FallDown()
     {
-        
-        for(int i = 0; i < 5; i++)
-        { 
+
+        for (int i = 0; i < 5; i++)
+        {
             animator.SetTrigger("FallDown");
             yield return new WaitForSeconds(5f);
         }
@@ -36,10 +35,6 @@ public class AnimatorController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void UpdateMovementValues(float xMovement, float yMovement, bool isSprinting = false)
     {
         float snappedX = SnapValues(xMovement, 0.55f, 0.5f, 1.0f);
@@ -72,5 +67,37 @@ public class AnimatorController : MonoBehaviour
         }
         return 0f;
 
+    }
+
+    public void BeginJump()
+    {
+        animator.SetBool("IsGrounded", false);
+        animator.SetBool("IsJumping", true);
+        Invoke("BeginFall", 0.25f);
+    }
+
+    public void BeginFall()
+    {
+        animator.SetBool("IsFalling", true);
+        animator.SetBool("IsJumping", false);
+    }
+
+    public void EndJump()
+    {
+        animator.SetBool("IsGrounded", true);
+        animator.SetBool("IsFalling", false);
+    }
+
+    public void StrafeLeft()
+    {
+        animator.SetFloat("IsStrafing", 1);
+    }
+    public void StrafeRight()
+    {
+        animator.SetFloat("IsStrafing", -1);
+    }
+    public void StopStrafe()
+    {
+        animator.SetFloat("IsStrafing", 0);
     }
 }

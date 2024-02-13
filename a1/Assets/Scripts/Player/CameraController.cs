@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public float cameraSpeed;
+    public float cameraDistance;
+    public float sphereRadius = 0.25f;
     private Vector3 cameraFollowVelocity = Vector3.zero;
     [SerializeField]
     Transform targetTransform;
@@ -20,11 +23,14 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     Transform cameraPivot;
 
+    Vector3 _cameraOriginalPosition;
+
 
     private float lookAngle = 0, pivotAngle = 0;
     void Awake()
     {
         targetTransform = FindObjectOfType<PlayerController>().transform;
+        _cameraOriginalPosition = Camera.main.transform.localPosition;
         //camera = GetComponentInChildren<Camera>();
     }
     private void HandleAllCameraMovement()
@@ -50,6 +56,22 @@ public class CameraController : MonoBehaviour
         rotation.x = pivotAngle;
         targetRotation = Quaternion.Euler(rotation);
         cameraPivot.localRotation = targetRotation;
+    }
+    private void Oclude()
+    {
+
+        Ray ray = new Ray(targetTransform.position, Camera.main.transform.position - targetTransform.position);
+        RaycastHit hit;
+        LayerMask layerMask = LayerMask.GetMask("Player");
+        if (Physics.Raycast(ray, out hit, cameraDistance, ~layerMask))
+        {
+            Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, hit.point, 10f * Time.deltaTime);
+
+        }
+        else
+        {
+            Camera.main.transform.localPosition = Vector3.Lerp(Camera.main.transform.localPosition, _cameraOriginalPosition, 10f * Time.deltaTime);
+        }
     }
     private void LateUpdate()
     {
