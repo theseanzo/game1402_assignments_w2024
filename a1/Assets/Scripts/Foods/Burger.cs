@@ -7,7 +7,7 @@ public class Burger : Food
     // Start is called before the first frame update
     void Start()
     {
-        Value = GameConstants.BreadValue;
+        PickValue = GameConstants.BreadValue;
     }
 
     // Update is called once per frame
