@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animatorController.UpdateMovementValues(0, movementAmount, isSprinting);
+        animatorController.UpdateMovementValues(movementAmount, movementAmount, isSprinting);
     }
     private void LateUpdate()
     {
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 targetDirection = Vector3.zero;
         targetDirection = cameraObject.forward * yMovement;
-        targetDirection = targetDirection + cameraObject.right * xMovement;
+        //targetDirection = targetDirection + cameraObject.right * xMovement;
         targetDirection.Normalize();
         targetDirection.y = 0;
         if (targetDirection == Vector3.zero)
@@ -152,8 +152,11 @@ public class PlayerController : MonoBehaviour
         xMovement = movement.x;
         yMovement = movement.y;
         movementAmount = Mathf.Abs(xMovement) + Mathf.Abs(yMovement);
-        
-        
+        if (Mathf.Abs(movement.x) > 0)
+        {
+            Animator animator = GetComponent<Animator>();
+            animator.SetFloat("XMovement", movement.x, 0.1f, Time.deltaTime);
+        }
     }
     public void HandleSprintInput(bool sprint)
     {
@@ -171,10 +174,11 @@ public class PlayerController : MonoBehaviour
     {
         if (isGrounded)
         {
+            Animator animator = GetComponent<Animator>();
             Vector3 velocity = rb.velocity;
-            velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
-            rb.velocity = velocity; //reattach that to our rigid body
-            isGrounded = false; //inform that we are no longer on the ground
+            velocity.y = jumpForce;
+            rb.velocity = velocity;
+            animator.CrossFade("Jump", 0.05f);
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -184,8 +188,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerExit(Collider other)
-    {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            isGrounded = false;
+    {       
+      isGrounded = false;
     }
 }
