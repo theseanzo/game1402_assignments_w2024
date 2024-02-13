@@ -175,6 +175,7 @@ public class PlayerController : MonoBehaviour
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
             isGrounded = false; //inform that we are no longer on the ground
+            animatorController.Jumptrigger();
         }
     }
     private void OnTriggerEnter(Collider other)

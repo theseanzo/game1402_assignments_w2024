@@ -73,4 +73,8 @@ public class AnimatorController : MonoBehaviour
         return 0f;
 
     }
+    public void Jumptrigger()
+    {
+        animator.SetTrigger("Jump");
+    }
 }
