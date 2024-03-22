@@ -15,4 +15,9 @@ public class FrictionGoat : A2Animal
             Move();
         #endregion
     }
+    protected override void Move()
+    {
+        _rb.isKinematic = false;
+        _rb?.AddForce(Vector3.right * speed, ForceMode.Impulse);
+    }
 }
