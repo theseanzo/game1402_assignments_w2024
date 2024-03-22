@@ -8,6 +8,7 @@ public class ShiftSheep : A2Animal
     [SerializeField]
     float distance = 2f;
     #endregion
+
     IEnumerator coroutine;
     Vector3 newPosition;
 

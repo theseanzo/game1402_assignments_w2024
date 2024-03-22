@@ -19,7 +19,7 @@ public class Exhibit3_A2 : Exhibit
 
     public void StartSpawning()
 	{
-        foreach (var track in trackSpawners)
+		foreach (var track in trackSpawners)
         {
             track.Spawn();
         }

@@ -8,9 +8,9 @@ public class ConstantMoveGoat : A2Animal
     [SerializeField]
     float speed = 3f;
     #endregion
-    bool isMoving;
 
     IEnumerator coroutine;
+    bool isMoving;
 
     private void Update()
     {
