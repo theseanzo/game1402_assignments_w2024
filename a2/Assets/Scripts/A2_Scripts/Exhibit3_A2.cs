@@ -6,8 +6,9 @@ public class Exhibit3_A2 : Exhibit
 {
 	[SerializeField]
 	TrackSpawner[] trackSpawners;
-	// Update is called once per frame
-	void Update()
+
+    // Update is called once per frame
+    void Update()
 	{
 		#region SEAN CODE DO NOT TOUCH
 		if (Input.GetKeyDown(KeyCode.E))
@@ -19,6 +20,10 @@ public class Exhibit3_A2 : Exhibit
 
     public void StartSpawning()
 	{
+		foreach (TrackSpawner trackSpawners in trackSpawners)
+		{
+			trackSpawners.Spawn();
+		}
 
 	}
 }
