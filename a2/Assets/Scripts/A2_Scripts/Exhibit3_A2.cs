@@ -19,6 +19,9 @@ public class Exhibit3_A2 : Exhibit
 
     public void StartSpawning()
 	{
-
+		foreach (TrackSpawner trackSpawner in trackSpawners)
+		{
+			trackSpawner?.Spawn();
+		}
 	}
 }

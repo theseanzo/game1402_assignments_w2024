@@ -2865,6 +2865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+  _friction: 6
 --- !u!1 &3323145839902171513
 GameObject:
   m_ObjectHideFlags: 0
