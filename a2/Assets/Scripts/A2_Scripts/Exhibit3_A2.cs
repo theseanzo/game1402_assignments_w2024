@@ -6,7 +6,6 @@ public class Exhibit3_A2 : Exhibit
 {
 	[SerializeField]
 	TrackSpawner[] trackSpawners;
-	// Update is called once per frame
 	void Update()
 	{
 		#region SEAN CODE DO NOT TOUCH
@@ -17,8 +16,18 @@ public class Exhibit3_A2 : Exhibit
         #endregion
     }
 
-    public void StartSpawning()
-	{
-
-	}
+    private void StartSpawning()
+    {
+        foreach (var spawner in trackSpawners)
+        {
+            if (!spawner.AnimalOnTrack())
+            {
+                spawner.Spawn();
+            }
+            else
+            {
+                Debug.Log("Animal already exists on the track.");
+            }
+        }
+    }
 }

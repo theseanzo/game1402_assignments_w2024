@@ -12,9 +12,19 @@ public class TrackSpawner : MonoBehaviour
 	A2Animal currentAnimal;
     #endregion
 
-	//NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
-	public void Spawn() 
-	{
-		
-	}
+    private float xRotation = 0f;
+    private float yRotation = 90f;
+    private float zRotaion = 0f;
+
+    //NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
+    public void Spawn()
+    {
+        currentAnimal = Instantiate(animal, spawnLocation.position, Quaternion.Euler(xRotation, yRotation, zRotaion));
+        Debug.Log("Animal spawned with rigid body.");
+    }
+
+    public bool AnimalOnTrack()
+    {
+        return currentAnimal != null;
+    }
 }
