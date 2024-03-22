@@ -15,4 +15,8 @@ public class ConstantMoveGoat : A2Animal
             Move(); //can change move functions
         #endregion
     }
+    public void StopMove()
+    {
+        speed = 0;
+    }
 }
