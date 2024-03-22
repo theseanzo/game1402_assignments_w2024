@@ -17,7 +17,11 @@ public class ConstantMoveGoat : A2Animal
             Move(); //can change move functions
         #endregion
     }
-
+    protected override void Awake()
+    {
+        base.Awake();
+        _rb.isKinematic = true;
+    }
     protected override void Move()
     {
         moveToggle = !moveToggle;

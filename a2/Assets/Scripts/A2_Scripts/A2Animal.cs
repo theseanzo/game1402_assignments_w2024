@@ -9,7 +9,6 @@ public class A2Animal : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
-        _rb.isKinematic = true;
         _rb.freezeRotation = true;
         _rb.detectCollisions = true;
     }

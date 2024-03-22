@@ -10,10 +10,14 @@ public class TrackSpawner : MonoBehaviour
 	[SerializeField]
 	A2Animal animal;
 	A2Animal currentAnimal;
-    #endregion
-
-	//NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
-	public void Spawn() 
+	#endregion
+	public Transform trueEndLocation;
+    //NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
+    private void Awake()
+    {
+		trueEndLocation = endLocation;
+    }
+    public void Spawn() 
 	{
 		Instantiate(animal, spawnLocation.position, Quaternion.Euler(0,90,0));
 	}

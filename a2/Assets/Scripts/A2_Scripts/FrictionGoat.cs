@@ -16,11 +16,6 @@ public class FrictionGoat : A2Animal
             Move();
         #endregion
     }
-    protected override void Awake()
-    {
-        base.Awake();
-        _rb.isKinematic = false;
-    }
 
     protected override void Move()
     {
