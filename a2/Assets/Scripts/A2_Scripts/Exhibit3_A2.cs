@@ -17,11 +17,11 @@ public class Exhibit3_A2 : Exhibit
         #endregion
     }
 
-    public void StartSpawning()
+	public void StartSpawning()
 	{
 		foreach (var track in trackSpawners)
-        {
-            track.Spawn();
-        }
-    }
+		{
+			track.Spawn();
+		}
+	}
 }
