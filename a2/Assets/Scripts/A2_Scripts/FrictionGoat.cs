@@ -18,7 +18,6 @@ public class FrictionGoat : A2Animal
     {
         _spawnerRefFriction = FindObjectOfType<TrackSpawner>();
         _animal = GetComponent<A2Animal>();
-        _animal._canMove = true;
 
         _rbFriction = GetComponent<Rigidbody>();
         _rbFriction.freezeRotation = true;
@@ -34,6 +33,7 @@ public class FrictionGoat : A2Animal
     }
     public override void Move()
     {
+        _animal._canMove = true;
         _moveVector = _spawnerRefFriction.movement;
         _rbFriction.MovePosition(_rbFriction.position + _moveVector * speed * Time.fixedDeltaTime);
     }
