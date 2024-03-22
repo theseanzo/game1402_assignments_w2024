@@ -10,7 +10,7 @@ public class ConstantMoveGoat : A2Animal
     #endregion
     bool isMoving;
 
-    IEnumerator couroutine;
+    IEnumerator coroutine;
 
     private void Update()
     {
@@ -25,13 +25,13 @@ public class ConstantMoveGoat : A2Animal
         if (!isMoving)
         {
             isMoving = true;
-            couroutine = MoveGoat();
-            StartCoroutine(couroutine);
+            coroutine = MoveGoat();
+            StartCoroutine(coroutine);
         }
         else
         {
             isMoving = false;
-            StopCoroutine(couroutine);
+            StopCoroutine(coroutine);
         }
     }
 
