@@ -6,6 +6,7 @@ public class Exhibit3_A2 : Exhibit
 {
 	[SerializeField]
 	TrackSpawner[] trackSpawners;
+
 	// Update is called once per frame
 	void Update()
 	{
@@ -19,6 +20,12 @@ public class Exhibit3_A2 : Exhibit
 
     public void StartSpawning()
 	{
-
+		foreach(TrackSpawner spawner in  trackSpawners)
+		{
+			if (spawner != null)
+			{
+				spawner.Spawn();
+			}
+		}
 	}
 }
