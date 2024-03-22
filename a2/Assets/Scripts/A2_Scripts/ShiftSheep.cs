@@ -8,11 +8,18 @@ public class ShiftSheep : A2Animal
     [SerializeField]
     float distance = 2f;
     #endregion
+
+
     private void Update()
     {
         #region Sean code do not touch
         if (Input.GetKeyDown(KeyCode.Alpha3))
             Move();
         #endregion
+    }
+
+    public override void Move()
+    {
+       
     }
 }
