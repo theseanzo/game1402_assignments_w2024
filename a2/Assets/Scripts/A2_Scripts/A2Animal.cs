@@ -64,4 +64,15 @@ public class A2Animal : MonoBehaviour
             onReachTrackEndDelegate();
         }
     }
+
+    // Reset animal properties
+    public virtual void Reset()
+    {
+        _shouldMove = false;
+        
+        if(HasRigidBody())
+        {
+            _rb.velocity = Vector3.zero;
+        }
+    }
 }

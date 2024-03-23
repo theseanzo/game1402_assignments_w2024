@@ -13,14 +13,23 @@ public class TrackSpawner : MonoBehaviour
     #endregion
 
 	private float _distanceCheck = 0.1f;
-	
+
 	//NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
 	public void Spawn() 
 	{
 		// Spawn an animal at the spawn location as a child of this track
 		// Set the animal's onReachTrackEndDelegate to Despawn
-		currentAnimal = Instantiate(animal, spawnLocation.position, Quaternion.Euler(0, 90, 0), this.transform);
-		currentAnimal.onReachTrackEndDelegate += Despawn;
+		// Recycle the animal if it is already spawned
+		if(currentAnimal == null)
+		{
+			currentAnimal = Instantiate(animal, spawnLocation.position, Quaternion.Euler(0, 90, 0), this.transform);
+			currentAnimal.onReachTrackEndDelegate += Despawn;
+		}
+		else
+		{
+			currentAnimal.gameObject.SetActive(true);
+			currentAnimal.transform.position = spawnLocation.position;
+		}
 	}
 
 	private void Update()
@@ -43,12 +52,13 @@ public class TrackSpawner : MonoBehaviour
 
 	public bool CanSpawn()
 	{
-		return currentAnimal == null;
+		return currentAnimal == null || currentAnimal.gameObject.activeSelf == false;
 	}
 
+	// Deactivate the animal and reset it
 	private void Despawn()
 	{
-		Destroy(currentAnimal.gameObject);
-		currentAnimal = null;
+		currentAnimal.Reset();
+		currentAnimal.gameObject.SetActive(false);
 	}
 }

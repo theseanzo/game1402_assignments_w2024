@@ -46,4 +46,15 @@ public class ShiftSheep : A2Animal
         transform.localPosition = positionTarget;
         _shiftMoveCoroutine = null;
     }
+
+    // Handle coroutine cleanup
+    public override void Reset()
+    {
+        base.Reset();
+        if (_shiftMoveCoroutine != null)
+        {
+            StopCoroutine(_shiftMoveCoroutine);
+            _shiftMoveCoroutine = null;
+        }
+    }
 }
