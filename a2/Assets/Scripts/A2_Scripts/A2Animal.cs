@@ -25,7 +25,7 @@ public class A2Animal : MonoBehaviour
         return _rb != null;   
     }
 
-    // Add a rigid body to the game object if it doesn't have one
+    // Add a default rigid body to the game object if it doesn't have one
     protected virtual void AddRigidBody()
     {
         if (!HasRigidBody())
@@ -52,7 +52,7 @@ public class A2Animal : MonoBehaviour
 
     // Check if the animal has reached the end of the track
     // Call the delegate if it has
-    private void OnCollisionEnter(Collision collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.name == "TrackEnd")
         {

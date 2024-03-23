@@ -15,7 +15,7 @@ public class TrackSpawner : MonoBehaviour
 	//NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
 	public void Spawn() 
 	{
-		// Spawn an animal at the spawn location
+		// Spawn an animal at the spawn location as a child of this track
 		// Set the animal's onReachTrackEndDelegate to Despawn
 		currentAnimal = Instantiate(animal, spawnLocation.position, Quaternion.Euler(0, 90, 0), this.transform);
 		currentAnimal.onReachTrackEndDelegate += Despawn;
