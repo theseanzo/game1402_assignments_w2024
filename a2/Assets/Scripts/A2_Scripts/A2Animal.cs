@@ -7,7 +7,6 @@ public class A2Animal : MonoBehaviour
     protected Rigidbody _rb;
     public delegate void OnReachTrackEndDelegate();
     public OnReachTrackEndDelegate onReachTrackEndDelegate;
-    // Update is called once per frame
 
     private void Awake()
     {
@@ -45,6 +44,7 @@ public class A2Animal : MonoBehaviour
         ModifyRigidBody();
     }
 
+    // Child objects can override this method to modify the rigid body
     protected virtual void ModifyRigidBody()
     {
 
