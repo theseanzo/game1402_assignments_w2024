@@ -20,7 +20,7 @@ public class FrictionGoat : A2Animal
     // Use force to move the animal
     protected override void Move()
     {
-        _rb.AddForce(Vector3.right * speed, ForceMode.Impulse);
+        _rb.AddForce(transform.forward * speed, ForceMode.Impulse);
     }
 
     // Modify the rigid body to have drag

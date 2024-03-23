@@ -29,12 +29,12 @@ public class ShiftSheep : A2Animal
         }
     }
 
-    // Move the animal to the right by a set distance smoothly over a set duration
+    // Move the animal forward by a set distance smoothly over a set duration
     IEnumerator ShiftMove()
     {
         float time = 0;
         Vector3 positionStart = transform.localPosition;
-        Vector3 positionTarget = positionStart + Vector3.right * distance;
+        Vector3 positionTarget = positionStart + transform.forward * distance;
 
         while (time < _duration)
         {
