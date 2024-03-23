@@ -7,7 +7,6 @@ using UnityEngine.Events;
 public class A2Animal : MonoBehaviour
 {
 
-    public bool _canMove;
 
     // Update is called once per frame
     void Awake()

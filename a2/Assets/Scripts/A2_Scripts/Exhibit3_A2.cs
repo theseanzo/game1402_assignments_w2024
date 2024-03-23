@@ -26,9 +26,9 @@ public class Exhibit3_A2 : Exhibit
 
     public void StartSpawning()
 	{
-		foreach (TrackSpawner tracks in trackSpawners) 
+		foreach (TrackSpawner tracks in trackSpawners)
 		{
-            _spawnerRef.Spawn();
-        }
-    }
+			tracks.Spawn();
+		}
+	}
 }

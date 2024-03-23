@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 public class ShiftSheep : A2Animal
 {
@@ -9,19 +10,16 @@ public class ShiftSheep : A2Animal
     public float distance = 2f;
     #endregion
 
-    A2Animal _animal;
-    Rigidbody _rbShift;
-    TrackSpawner _trackShift;
+    Rigidbody _rb;
     Vector3 _moveVector;
+    bool canMove = false;
 
     private void Awake()
     {
-       _animal = GetComponent<A2Animal>();
-       _trackShift = GetComponent<TrackSpawner>();
-
-       _rbShift = GetComponent<Rigidbody>();
-       _rbShift.freezeRotation = true;
-       _rbShift.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; //allows the animals to collide with static and dynamic rbs
+       _rb = GetComponent<Rigidbody>();
+       _rb.freezeRotation = true;
+       _rb.constraints = RigidbodyConstraints.FreezePositionY;
+       _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; //allows the animals to collide with static and dynamic rbs
     }
 
     private void Update()
@@ -34,8 +32,18 @@ public class ShiftSheep : A2Animal
 
     public override void Move()
     {
-        _moveVector = _trackShift.movement * Time.fixedDeltaTime;
-        _rbShift.MovePosition(_rbShift.position + _moveVector * distance);
-        
+        canMove = true;
     }
+
+    public void FixedUpdate()
+    {
+        if (canMove && Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Vector3 move = transform.forward * distance * Time.fixedDeltaTime;
+
+            _rb.MovePosition(_rb.position + move);
+        }
+
+    }
+
 }

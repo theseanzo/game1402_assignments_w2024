@@ -9,19 +9,16 @@ public class FrictionGoat : A2Animal
     float speed = 3f;
     #endregion
 
-    public TrackSpawner _spawnerRefFriction;
-    Rigidbody _rbFriction;
+    Rigidbody _rb;
     Vector3 _moveVector;
-    A2Animal _animal;
+    bool canMove = false;
 
     private void Awake()
     {
-        _spawnerRefFriction = FindObjectOfType<TrackSpawner>();
-        _animal = GetComponent<A2Animal>();
-
-        _rbFriction = GetComponent<Rigidbody>();
-        _rbFriction.freezeRotation = true;
-        _rbFriction.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; //allows the animals to collide with static and dynamic rbs
+        _rb = GetComponent<Rigidbody>();
+        _rb.freezeRotation = true;
+        _rb.constraints = RigidbodyConstraints.FreezePositionY;
+        _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; //allows the animals to collide with static and dynamic rbs
     }
 
     private void Update()
@@ -33,8 +30,14 @@ public class FrictionGoat : A2Animal
     }
     public override void Move()
     {
-        _animal._canMove = true;
-        _moveVector = _spawnerRefFriction.movement;
-        _rbFriction.MovePosition(_rbFriction.position + _moveVector * speed * Time.fixedDeltaTime);
+        canMove = !canMove;
+    }
+    public void FixedUpdate()
+    {
+        if (canMove)
+        {
+            Vector3 move = transform.forward * speed;
+           _rb.AddForce(_rb.position + move);
+        }
     }
 }
