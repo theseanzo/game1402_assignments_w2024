@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FrictionGoat : A2Animal
@@ -16,7 +17,13 @@ public class FrictionGoat : A2Animal
     
     private void Start()
     {
-        rigidBodyComponent = GetComponent<Rigidbody>();
+        rigidBodyComponent = this.AddComponent<Rigidbody>();
+        rigidBodyComponent.mass = 1;
+        rigidBodyComponent.drag = 1;
+        rigidBodyComponent.useGravity = false;
+        rigidBodyComponent.isKinematic = false;
+        rigidBodyComponent.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rigidBodyComponent.constraints = RigidbodyConstraints.FreezeRotation;
     }
     
     private void Update()

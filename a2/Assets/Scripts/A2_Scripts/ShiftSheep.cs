@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShiftSheep : A2Animal
@@ -13,7 +15,20 @@ public class ShiftSheep : A2Animal
     #endregion
 
     private bool _currentlyMoving;
-    
+
+    public Rigidbody rb;
+    private void Awake()
+    {
+        /** ADDING RIGID BODY */
+        rb = this.AddComponent<Rigidbody>();
+        rb.mass = 1;
+        rb.drag = 0;
+        rb.useGravity = false;
+        rb.isKinematic = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha3))

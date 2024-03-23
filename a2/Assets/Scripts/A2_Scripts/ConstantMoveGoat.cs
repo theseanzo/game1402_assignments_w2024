@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ConstantMoveGoat : A2Animal
@@ -8,7 +10,20 @@ public class ConstantMoveGoat : A2Animal
     #endregion
     
     private bool isMoving = false;
-    
+
+    private Rigidbody rigidBodyComponent;
+
+    private void Awake()
+    {
+        rigidBodyComponent = this.AddComponent<Rigidbody>();
+        rigidBodyComponent.mass = 1;
+        rigidBodyComponent.drag = 0;
+        rigidBodyComponent.useGravity = true;
+        rigidBodyComponent.isKinematic = true;
+        rigidBodyComponent.collisionDetectionMode = CollisionDetectionMode.Discrete;
+        rigidBodyComponent.constraints = RigidbodyConstraints.FreezeRotation;
+    }
+
     private void Update()
     {
         #region SEAN CODE DO NOT TOUCH
