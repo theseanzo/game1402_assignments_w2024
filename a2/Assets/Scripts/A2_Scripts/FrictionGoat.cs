@@ -8,7 +8,6 @@ public class FrictionGoat : A2Animal
     [SerializeField]
     float speed = 3f;
     #endregion
-    [SerializeField]
     private float _drag = 0.5f;
     private void Update()
     {

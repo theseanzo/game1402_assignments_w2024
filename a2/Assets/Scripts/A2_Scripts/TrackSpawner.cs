@@ -12,8 +12,8 @@ public class TrackSpawner : MonoBehaviour
 	A2Animal currentAnimal;
     #endregion
 
-	[SerializeField]
 	private float _distanceCheck = 0.1f;
+	
 	//NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
 	public void Spawn() 
 	{
