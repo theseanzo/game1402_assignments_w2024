@@ -2815,9 +2815,10 @@ GameObject:
   - component: {fileID: 3323145839881088203}
   - component: {fileID: 4516475046140516090}
   - component: {fileID: -7980859542517560802}
+  - component: {fileID: 6353410659302050442}
   m_Layer: 0
   m_Name: FrictionGoat
-  m_TagString: Untagged
+  m_TagString: Animal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2847,7 +2848,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3323145839881088193}
   m_Material: {fileID: 13400000, guid: 0047c01dc024ef243a6a8627bd89fde5, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.517, y: 1.3, z: 1.47}
@@ -2865,6 +2866,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+--- !u!54 &6353410659302050442
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3323145839881088193}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 1
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &3323145839902171513
 GameObject:
   m_ObjectHideFlags: 0

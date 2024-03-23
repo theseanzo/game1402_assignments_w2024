@@ -1,20 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 public class TrackSpawner : MonoBehaviour
 {
+	/// <summary>
+	/// Manages the spawning and lifecycle of animals on a track.
+	/// </summary>
+	
     #region Sean Code Do Not Touch
     [SerializeField]
-	Transform spawnLocation, endLocation;
+	public Transform spawnLocation, endLocation;
 	[SerializeField]
 	A2Animal animal;
 	A2Animal currentAnimal;
     #endregion
-
-	//NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
+    
 	public void Spawn() 
 	{
-		
+		if (currentAnimal == null && animal != null && spawnLocation != null)
+		{
+			currentAnimal = Instantiate(animal, spawnLocation.position, Quaternion.identity);
+			if (endLocation != null)
+			{
+				currentAnimal.transform.LookAt(endLocation.position);
+			}
+		}
 	}
 }
