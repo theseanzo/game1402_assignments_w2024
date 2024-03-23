@@ -16,7 +16,6 @@ public class Exhibit3_A2 : Exhibit
 		}
         #endregion
     }
-
     public void StartSpawning()
 	{
 		foreach(TrackSpawner spawner in trackSpawners)

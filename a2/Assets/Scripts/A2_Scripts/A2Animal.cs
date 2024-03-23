@@ -9,8 +9,7 @@ public class A2Animal : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody>();
-    }
-        
+    }  
     // Update is called once per frame
 
     protected virtual void Move()

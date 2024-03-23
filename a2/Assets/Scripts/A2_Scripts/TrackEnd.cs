@@ -15,7 +15,6 @@ public class TrackEnd : MonoBehaviour
             DestroyAnimal(collidedObject);
         }
     }
-
     private void DestroyAnimal(GameObject animalObject)
     {
         Destroy(animalObject);

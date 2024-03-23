@@ -13,8 +13,6 @@ public class TrackSpawner : MonoBehaviour
 	#endregion
 
 	bool isAnimalOnTrack; 
-	
-
     private void FixedUpdate()
     {
         if (currentAnimal != null)

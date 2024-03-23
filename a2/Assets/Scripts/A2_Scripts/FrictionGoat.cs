@@ -15,8 +15,6 @@ public class FrictionGoat : A2Animal
         body.drag = goatFriction;
         speed = 22f;
     }
-
-
     private void Update()
     {
         #region Sean Code Do Not Touch
@@ -26,11 +24,9 @@ public class FrictionGoat : A2Animal
 
      
     }
-
     protected override void Move()
     {
         base.Move();
         body.AddForce(Vector3.right * speed, ForceMode.Impulse);
     }
-
 }

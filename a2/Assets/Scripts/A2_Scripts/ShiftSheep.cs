@@ -10,8 +10,7 @@ public class ShiftSheep : A2Animal
     #endregion
 
     Vector3 targetDestination;
-    Vector3 sheepVelocity; 
-
+    Vector3 sheepVelocity;
     bool moveSheep = false;
     float moveSpeed = 1f;
 
@@ -19,7 +18,6 @@ public class ShiftSheep : A2Animal
     {
         distance = 15f;
         moveSheep = false; 
-
         targetDestination = new Vector3(transform.position.x + distance, transform.position.y, transform.position.z);
     }
     private void Update()
@@ -37,7 +35,6 @@ public class ShiftSheep : A2Animal
             body.position = Vector3.Lerp(body.position, targetDestination, moveSpeed * Time.fixedDeltaTime);
         }
     }
-
     protected override void Move()
     {
         base.Move();

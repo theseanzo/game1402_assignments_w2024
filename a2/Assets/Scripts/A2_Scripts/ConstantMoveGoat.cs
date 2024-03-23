@@ -11,7 +11,6 @@ public class ConstantMoveGoat : A2Animal
     #endregion
 
     bool isMoving = false;
-
     private void Start()
     {
         body.isKinematic = true;
