@@ -8,11 +8,26 @@ public class FrictionGoat : A2Animal
     [SerializeField]
     float speed = 3f;
     #endregion
+    [SerializeField]
+    private float _drag = 0.5f;
     private void Update()
     {
         #region Sean Code Do Not Touch
         if (Input.GetKeyDown(KeyCode.Alpha2))
             Move();
         #endregion
+    }
+
+    // Use force to move the animal
+    protected override void Move()
+    {
+        _rb.AddForce(Vector3.right * speed, ForceMode.Impulse);
+    }
+
+    // Modify the rigid body to have drag
+    protected override void ModifyRigidBody()
+    {
+        base.ModifyRigidBody();
+        _rb.drag = _drag;
     }
 }
