@@ -19,6 +19,12 @@ public class Exhibit3_A2 : Exhibit
 
     public void StartSpawning()
 	{
+		foreach (TrackSpawner checkSpawner in trackSpawners)
+		{
+            Debug.Log(checkSpawner.HasCurrentAnimal());
+            if (!checkSpawner.HasCurrentAnimal())
+			{checkSpawner.Spawn(); }
 
+		}
 	}
 }
