@@ -1,18 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TrackEnd : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    void OnCollisionEnter(Collision collision)
     {
-        
+        GameObject collidedObject = collision.gameObject;
+        A2Animal animalBody = collidedObject.GetComponent<A2Animal>();
+
+        if (animalBody != null)
+        {
+            DestroyAnimal(collidedObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void DestroyAnimal(GameObject animalObject)
     {
-        
+        Destroy(animalObject);
     }
+    
+      
 }
