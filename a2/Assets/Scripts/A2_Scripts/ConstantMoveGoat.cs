@@ -27,11 +27,7 @@ public class ConstantMoveGoat : A2Animal
         _shouldMove = !_shouldMove;
     }
 
-    protected override void AddRigidBody()
-    {
-        base.AddRigidBody();
-    }
-
+    // Make the rigid body kinematic
 	protected override void ModifyRigidBody()
 	{
         base.ModifyRigidBody();

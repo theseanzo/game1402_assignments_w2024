@@ -30,10 +30,4 @@ public class FrictionGoat : A2Animal
             _shouldMove = false;
         }
     }
-
-    // Modify the rigid body to have drag
-    protected override void ModifyRigidBody()
-    {
-        base.ModifyRigidBody();
-    }
 }
