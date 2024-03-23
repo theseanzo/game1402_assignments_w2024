@@ -6,11 +6,10 @@ public class Exhibit3_A2 : Exhibit
 {
 	[SerializeField]
 	TrackSpawner[] trackSpawners;
-	TrackSpawner _spawnerRef;
 
 	void Start()
 	{
-        _spawnerRef = FindObjectOfType<TrackSpawner>();
+        
     }
 
 	// Update is called once per frame
@@ -28,7 +27,7 @@ public class Exhibit3_A2 : Exhibit
 	{
 		foreach (TrackSpawner tracks in trackSpawners)
 		{
-			tracks.Spawn();
+			tracks.Spawn(); //creates a loop that spawns an animal in each track
 		}
 	}
 }

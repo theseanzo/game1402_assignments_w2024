@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FrictionGoat : A2Animal
@@ -9,16 +10,15 @@ public class FrictionGoat : A2Animal
     float speed = 3f;
     #endregion
 
-    Rigidbody _rb;
-    Vector3 _moveVector;
-    bool canMove = false;
+    Rigidbody _rb; 
+    Vector3 _moveVector; //vector which will be responsible for movement
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.freezeRotation = true;
-        _rb.constraints = RigidbodyConstraints.FreezePositionY;
-        _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; //allows the animals to collide with static and dynamic rbs
+        _rb.constraints = RigidbodyConstraints.FreezeRotationY;
+        _rb.constraints = RigidbodyConstraints.FreezePositionY; //freezing the rotation and position in Y, i believe the freezerotation is just rotating it in general
     }
 
     private void Update()
@@ -28,16 +28,14 @@ public class FrictionGoat : A2Animal
             Move();
         #endregion
     }
-    public override void Move()
-    {
-        canMove = !canMove;
-    }
+
     public void FixedUpdate()
     {
         if (canMove)
         {
-            Vector3 move = transform.forward * speed;
-           _rb.AddForce(_rb.position + move);
+            //Vector3 move = transform.forward * speed * Time.fixedDeltaTime;
+            //_rb.MovePosition(_rb.position + move);
+            _rb.AddForce(Vector3.right * speed); //adds force to the sheep's body according to the accelleration
         }
     }
 }

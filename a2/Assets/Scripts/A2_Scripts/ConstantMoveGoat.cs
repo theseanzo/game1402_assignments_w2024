@@ -9,13 +9,12 @@ public class ConstantMoveGoat : A2Animal
     float speed = 3f;
     #endregion
 
-    bool canMove = false;
     Rigidbody rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        rb.freezeRotation = true; //freezing the rotation
         //rb.isKinematic = true;
         //rb.constraints = RigidbodyConstraints.FreezePositionY;
     }
@@ -27,15 +26,11 @@ public class ConstantMoveGoat : A2Animal
             Move(); //can change move functions
         #endregion
     }
-    public override void Move()
-    {
-        canMove = !canMove;
-    }
     public void FixedUpdate()
     {
         if (canMove)
         {
-            Vector3 move = transform.forward * speed * Time.fixedDeltaTime;
+            Vector3 move = transform.forward * speed * Time.fixedDeltaTime; //moves the sheep forward in constant speed and velocity
 
             rb.MovePosition(rb.position + move);
         }

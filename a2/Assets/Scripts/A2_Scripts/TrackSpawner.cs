@@ -14,15 +14,14 @@ public class TrackSpawner : MonoBehaviour
     #endregion
 
     //public Vector3 movement;
-    public float distance;
+    public float distance; //creating a float variable to gather the distance, which will be described in the code
 
     //NOTE: Every A2 Animal, when spawned, will need to be rotated 90 on the y axis
     public void Spawn() 
 	{
-        if (currentAnimal == null)
+        if (currentAnimal == null) //if there isn't an animal in the scene, you can create a new sheep
             currentAnimal = Instantiate(animal, spawnLocation.position, Quaternion.Euler(0, 90, 0));
-        //create a new sheep
-        //according to the spawn location and rotating it 90 degrees
+        //new sheep created according to the spawn location and rotating it 90 degrees
     }
 
     public void Update()
@@ -30,16 +29,16 @@ public class TrackSpawner : MonoBehaviour
 
         if (currentAnimal != null)
         {
-            distance = Vector3.Distance(spawnLocation.position, endLocation.position);
+            distance = Vector3.Distance(spawnLocation.position, endLocation.position); //if there is an animal in the scene, it can be moved forward in the space between the spawn location and end location
 
             //currentAnimal.Move();
         }
 
-/*        if (distance <= 1f)
+        if (distance <= 1f)
         {
-                Destroy(currentAnimal);
-                //Spawn();
+            Destroy(currentAnimal); //if the player is close to the end, destroy the animal 
+            //Spawn();
         }
-*/        
+
     }
 }

@@ -12,7 +12,7 @@ public class ShiftSheep : A2Animal
 
     Rigidbody _rb;
     Vector3 _moveVector;
-    bool canMove = false;
+    //canMove = false;
 
     private void Awake()
     {
@@ -22,6 +22,7 @@ public class ShiftSheep : A2Animal
        _rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; //allows the animals to collide with static and dynamic rbs
     }
 
+
     private void Update()
     {
         #region Sean code do not touch
@@ -30,18 +31,15 @@ public class ShiftSheep : A2Animal
         #endregion
     }
 
-    public override void Move()
-    {
-        canMove = true;
-    }
-
     public void FixedUpdate()
     {
-        if (canMove && Input.GetKeyDown(KeyCode.Alpha3))
+        if (canMove && Input.GetKeyDown(KeyCode.Alpha3)) //if the sheep can move and 3 is being pressed
         {
-            Vector3 move = transform.forward * distance * Time.fixedDeltaTime;
+            Vector3 move = transform.forward * distance * Time.fixedDeltaTime; //move it forwards according to the space settled beforehand within a time period
 
-            _rb.MovePosition(_rb.position + move);
+            _rb.MovePosition(_rb.position + move); //moves the rigidbody along with the vector 3 made which moves the player
+
+            //all of this only happens when the player presses the key
         }
 
     }
