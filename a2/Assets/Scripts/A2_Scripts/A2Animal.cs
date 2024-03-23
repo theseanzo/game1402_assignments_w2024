@@ -4,7 +4,7 @@ using UnityEngine;
 public class A2Animal : MonoBehaviour
 {
 
-    // Update is called once per frame
+    public bool MovingGoat;
 
     protected virtual void Move()
     {

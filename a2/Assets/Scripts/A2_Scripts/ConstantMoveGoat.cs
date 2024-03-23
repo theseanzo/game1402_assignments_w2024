@@ -8,11 +8,27 @@ public class ConstantMoveGoat : A2Animal
     [SerializeField]
     float speed = 3f;
     #endregion
+    
+    
+    
     private void Update()
     {
         #region SEAN CODE DO NOT TOUCH
         if (Input.GetKeyDown(KeyCode.Alpha1))
-            Move(); //can change move functions
+            Move(); 
         #endregion
+        
+        if (MovingGoat == true)
+        {
+            transform.position += transform.forward * speed * Time.deltaTime;
+            
+        }
     }
+    
+    public void Move()
+    {
+        
+        MovingGoat = !MovingGoat; 
+    }
+
 }
