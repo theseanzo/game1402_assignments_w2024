@@ -8,8 +8,7 @@ public class ConstantMoveGoat : A2Animal
     [SerializeField]
     float speed = 3f;
     #endregion
-
-    private bool _shouldMove = false;
+    
     private void Update()
     {
         #region SEAN CODE DO NOT TOUCH

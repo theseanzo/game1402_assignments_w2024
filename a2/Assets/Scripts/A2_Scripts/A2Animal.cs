@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class A2Animal : MonoBehaviour
 {
-
+    protected bool _shouldMove = false;
     protected Rigidbody _rb;
     public delegate void OnReachTrackEndDelegate();
     public OnReachTrackEndDelegate onReachTrackEndDelegate;
