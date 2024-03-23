@@ -50,6 +50,11 @@ public class A2Animal : MonoBehaviour
 
     }
 
+    public bool IsKinematic()
+    {
+        return _rb?.isKinematic ?? false;
+    }
+
     // Check if the animal has reached the end of the track
     // Call the delegate if it has
     protected virtual void OnCollisionEnter(Collision collision)
