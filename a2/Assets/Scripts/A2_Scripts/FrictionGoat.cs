@@ -8,11 +8,19 @@ public class FrictionGoat : A2Animal
     [SerializeField]
     float speed = 3f;
     #endregion
+    private Rigidbody rb;
+    private float extraspeed = 3f;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
     private void Update()
     {
-        #region Sean Code Do Not Touch
         if (Input.GetKeyDown(KeyCode.Alpha2))
-            Move();
-        #endregion
+        {
+
+            rb.AddForce(transform.forward * speed * extraspeed );
+        }
+
     }
 }

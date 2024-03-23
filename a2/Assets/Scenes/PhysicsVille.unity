@@ -707,6 +707,7 @@ MonoBehaviour:
   spawnLocation: {fileID: 387252909}
   endLocation: {fileID: 1861455727}
   animal: {fileID: 3130103131971456412, guid: 5d2f8a2eef39e054bb3054720f45cafc, type: 3}
+  distance: 0
 --- !u!1 &118024368 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8178109065456489191, guid: 5062c1312f2beb14694d90a058d444e4, type: 3}
@@ -10127,6 +10128,7 @@ MonoBehaviour:
   spawnLocation: {fileID: 1980278874}
   endLocation: {fileID: 2027457751}
   animal: {fileID: -7980859542517560802, guid: 1cd26025a9d34d741b358b36422984d8, type: 3}
+  distance: 0
 --- !u!4 &1276706490 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3008297296413678391, guid: cb422acdc199d6e42910f589b81c283b, type: 3}
@@ -13473,6 +13475,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrackEnd
       objectReference: {fileID: 0}
+    - target: {fileID: 2508803079818082220, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5125010707129076267, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -13535,7 +13541,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7023753529688522609, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
@@ -14393,6 +14399,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TrackEnd
       objectReference: {fileID: 0}
+    - target: {fileID: 2508803079818082220, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5125010707129076267, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -15045,6 +15055,7 @@ MonoBehaviour:
   spawnLocation: {fileID: 1214635798}
   endLocation: {fileID: 1736011939}
   animal: {fileID: -9166076883013498423, guid: 57bd2fb14f2b4f04db2b91051a846dbc, type: 3}
+  distance: 0
 --- !u!4 &1923741463 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3008297296413678391, guid: cb422acdc199d6e42910f589b81c283b, type: 3}
@@ -16105,6 +16116,10 @@ PrefabInstance:
     - target: {fileID: 2508803079818082220, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
       propertyPath: m_Name
       value: TrackEnd
+      objectReference: {fileID: 0}
+    - target: {fileID: 2508803079818082220, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5125010707129076267, guid: 616fdaa7dbff40e4f91c695be15f9f4f, type: 3}
       propertyPath: m_RootOrder
