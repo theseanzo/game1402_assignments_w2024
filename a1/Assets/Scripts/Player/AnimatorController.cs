@@ -35,6 +35,15 @@ public class AnimatorController : MonoBehaviour
 
     }
 
+    IEnumerator Jump()
+    {
+        for (int i = 0;i < 7;i++)
+        {
+            animator.SetTrigger("Jumping");
+            yield return new WaitForSeconds(7f);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {

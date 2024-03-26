@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     //This is a standard 3D player controller
     AnimatorController animatorController;
+    Animator playerAnimator;
     Vector3 moveDirection;
     Transform cameraObject;
     Rigidbody rb;
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour
     bool isGrounded = true;
     bool isJumping;
     bool isSprinting;
+    bool isLeftStrafing;
+    bool isRightStrafing;
 
 
     float inAirTimer;
@@ -57,6 +60,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(ChangePlayerColor());
+        playerAnimator = GetComponent<Animator>();
     }
     IEnumerator ChangePlayerColor()
     {
@@ -131,6 +135,16 @@ public class PlayerController : MonoBehaviour
         }
         moveDirection.y = rb.velocity.y;
         rb.velocity = moveDirection;
+
+        if (isLeftStrafing) 
+        {
+            playerAnimator.SetTrigger("Left Strafe");
+        }
+
+        if (isRightStrafing)
+        {
+            playerAnimator.SetTrigger("Right Strafe");
+        }
     }
 
     private void HandleRotation()
@@ -175,7 +189,18 @@ public class PlayerController : MonoBehaviour
             velocity.y = jumpForce; //change our y velocity to be whatever we want it to be for jumping up
             rb.velocity = velocity; //reattach that to our rigid body
             isGrounded = false; //inform that we are no longer on the ground
+            playerAnimator.SetTrigger("isJumping");
         }
+    }
+
+    public void LeftStrafeInput(bool leftStrafe)
+    {
+        isLeftStrafing = leftStrafe;
+    }
+
+    public void RightStrafeInput(bool rightStrafe)
+    {
+        isRightStrafing = rightStrafe;
     }
     private void OnTriggerEnter(Collider other)
     {
